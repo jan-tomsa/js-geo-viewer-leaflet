@@ -3,7 +3,7 @@
 <style type="text/css">
 @import "css/jquery.svg.css";
 
-#svgbasics { width: 400px; height: 300px; border: 1px solid #484; }
+#svgbasics { width: 1000px; height: 700px; border: 0px; }
 </style>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	<script type="text/javascript" src="js/jquery.svg.js"></script>
@@ -13,7 +13,7 @@
 <body>
 	<table>
 		<tr>
-			<td>
+			<td valign="top">
 	<a href="controls.html">Refresh</a>
 	<form name="frm1">
 		Y1: <input type="text" name="y1" value="-526404">(left)<br/>
@@ -25,7 +25,7 @@
 		<hr>
 		<strong>Layers:</strong>
 		<input type="text" name="layers" size="35" value="prehledka_kat_prac,dalsi_p_mapy,hranice_parcel,obrazy_parcel,parcelni_cisla,prehledka_kat_uz,prehledka_kraju-linie,RST_KMD,RST_KN">
-		<ul>
+		<ul style="display:none;">
 			<li>prehledka_kat_prac</li>
 			<li><strong>dalsi_p_mapy</strong></li>
 			<li><strong>hranice_parcel</strong></li>
@@ -56,8 +56,13 @@
 	<hr />
 	<h3>SVG</h3>
 	<p>Coordinates script:</p>
-	<textarea id="myScript">120 120 240 240</textarea>
-<div id="svgbasics"></div>
+	<textarea id="myScript" rows="6">10 10 990 10
+990 690
+10 690
+10 10</textarea>
+			</td>
+			<td valign="top">
+			<img id="contents" src="http://docutils.sourceforge.net/docs/user/images/rsp-empty.png" width="1000" height="700" />
 <p><button id="drawLines">Draw Lines</button></p>
 <p><button id="rect">Add rectangle</button>
    <button id="line">Add line</button>
@@ -66,10 +71,8 @@
    <button id="clear">Clear</button>
    <button id="export">Export</button>
 </p>
+<div id="svgbasics" style="position:absolute;"></div>
 <div id="svgexport"></div>
-			</td>
-			<td valign="top">
-			<img id="contents" src="http://docutils.sourceforge.net/docs/user/images/rsp-empty.png" width="900" height="700" />
 			</td>
 		</tr>
 	</table>

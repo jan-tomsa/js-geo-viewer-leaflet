@@ -9,7 +9,13 @@ $(function() {
 		var xml = $('#svgbasics').svg('get').toSVG();
 		$('#svgexport').html(xml.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'));
 	});
+	$("#svgbasics").offset($("#contents").offset())
 });
+
+function resetSize(svg, width, height) {
+	svg.configure({width: width || $(svg._container).width(),
+		height: height || $(svg._container).height()});
+}
 
 function drawInitial(svg) {
 	svg.circle(75, 75, 50, {fill: 'none', stroke: 'red', 'stroke-width': 3});
@@ -51,7 +57,7 @@ function drawSVGLines( coordinates ) {
 	var svg = $('#svgbasics').svg('get');
 	for (lineCoords in coordinates) {
 		lc = coordinates[lineCoords];
-		svg.line(lc[0], lc[1], lc[2], lc [3], {stroke: 'green', 'stroke-width': 1});
+		svg.line(lc[0], lc[1], lc[2], lc [3], {stroke: 'red', 'stroke-width': 1});
 	}
 }
 
