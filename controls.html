@@ -32,7 +32,6 @@ function drawInitial(svg) {
 var colours = ['purple', 'red', 'orange', 'yellow', 'lime', 'green', 'blue', 'navy', 'black'];
 
 function drawLines() {
-	//var svg = $('#svgbasics').svg('get');
 	var myScript = $('#myScript')[0].value;
 	var scriptLines = myScript.split("\n");
 	var coordinates = [];
@@ -46,14 +45,12 @@ function drawLines() {
 		  x2 = 1*coords[2];
 		  y2 = 1*coords[3];
 		  coordinates.push([x1,y1,x2,y2]);
-		  //svg.line(x1, y1, x2, y2, {stroke: 'red', 'stroke-width': 1});
 		  lastx = x2;
 		  lasty = y2;
 		} else if (coords.length == 2) {
 		  x2 = 1*coords[0];
 		  y2 = 1*coords[1];
 		  coordinates.push([lastx,lasty,x2,y2]);
-		  //svg.line(lastx, lasty, x2, y2, {stroke: 'red', 'stroke-width': 1});
 		  lastx = x2;
 		  lasty = y2;
 		}
@@ -176,8 +173,7 @@ function random(range) {
 	<hr />
 	<h3>SVG:</h3>
 	<p>Coordinates script:</p>
-	<textarea id="myScript">120 120 240 240
-	</textarea>
+	<textarea id="myScript">120 120 240 240</textarea>
 <div id="svgbasics"></div>
 <p><button id="drawLines">Draw Lines</button></p>
 <p><button id="rect">Add rectangle</button>
@@ -190,7 +186,7 @@ function random(range) {
 <div id="svgexport"></div>
 			</td>
 			<td valign="top">
-	<iframe id="contents" src="contents.html" width="900" height="700"></iframe>
+	<img id="contents" src="http://docutils.sourceforge.net/docs/user/images/rsp-empty.png" width="900" height="700" />
 			</td>
 		</tr>
 	</table>
