@@ -26,6 +26,14 @@ function drawInitial(svg) {
 
 var colours = ['purple', 'red', 'orange', 'yellow', 'lime', 'green', 'blue', 'navy', 'black'];
 
+function transformX( x ) {
+	return x;
+}
+
+function transformY( y ) {
+	return y;
+}
+
 function drawLines() {
 	var myScript = $('#myScript')[0].value;
 	var scriptLines = myScript.split("\n");
@@ -39,15 +47,21 @@ function drawLines() {
 		  y1 = 1*coords[1];
 		  x2 = 1*coords[2];
 		  y2 = 1*coords[3];
-		  coordinates.push([x1,y1,x2,y2]);
-		  lastx = x2;
-		  lasty = y2;
+		  sx1 = transformX(x1);
+		  sy1 = transformY(y1);
+		  sx2 = transformX(x2);
+		  sy2 = transformY(y2);
+		  coordinates.push([sx1,sy1,sx2,sy2]);
+		  lastsx = sx2;
+		  lastsy = sy2;
 		} else if (coords.length == 2) {
 		  x2 = 1*coords[0];
 		  y2 = 1*coords[1];
-		  coordinates.push([lastx,lasty,x2,y2]);
-		  lastx = x2;
-		  lasty = y2;
+		  sx2 = transformX(x2);
+		  sy2 = transformY(y2);
+		  coordinates.push([lastsx,lastsy,sx2,sy2]);
+		  lastsx = sx2;
+		  lastsy = sy2;
 		}
 	}
 	drawSVGLines( coordinates )
