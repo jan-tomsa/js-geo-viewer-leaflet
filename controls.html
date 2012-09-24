@@ -32,9 +32,10 @@ function drawInitial(svg) {
 var colours = ['purple', 'red', 'orange', 'yellow', 'lime', 'green', 'blue', 'navy', 'black'];
 
 function drawLines() {
-	var svg = $('#svgbasics').svg('get');
+	//var svg = $('#svgbasics').svg('get');
 	var myScript = $('#myScript')[0].value;
 	var scriptLines = myScript.split("\n");
+	var coordinates = [];
 	lastx = 0;
 	lasty = 0;
 	for (line in scriptLines) {
@@ -44,16 +45,27 @@ function drawLines() {
 		  y1 = 1*coords[1];
 		  x2 = 1*coords[2];
 		  y2 = 1*coords[3];
-		  svg.line(x1, y1, x2, y2, {stroke: 'red', 'stroke-width': 1});
+		  coordinates.push([x1,y1,x2,y2]);
+		  //svg.line(x1, y1, x2, y2, {stroke: 'red', 'stroke-width': 1});
 		  lastx = x2;
 		  lasty = y2;
 		} else if (coords.length == 2) {
 		  x2 = 1*coords[0];
 		  y2 = 1*coords[1];
-		  svg.line(lastx, lasty, x2, y2, {stroke: 'red', 'stroke-width': 1});
+		  coordinates.push([lastx,lasty,x2,y2]);
+		  //svg.line(lastx, lasty, x2, y2, {stroke: 'red', 'stroke-width': 1});
 		  lastx = x2;
 		  lasty = y2;
 		}
+	}
+	drawSVGLines( coordinates )
+}
+
+function drawSVGLines( coordinates ) {
+	var svg = $('#svgbasics').svg('get');
+	for (lineCoords in coordinates) {
+		lc = coordinates[lineCoords];
+		svg.line(lc[0], lc[1], lc[2], lc [3], {stroke: 'green', 'stroke-width': 1});
 	}
 }
 
