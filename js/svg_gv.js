@@ -57,27 +57,31 @@ function drawLines() {
 	lastx = 0;
 	lasty = 0;
 	for (line in scriptLines) {
-		coords = scriptLines[line].trim().split(" ");
+		coords = scriptLines[line].trim().split(/[ ,]+/);
 		if (coords.length > 3) {
-		  x1 = 1*coords[0];
-		  y1 = 1*coords[1];
-		  x2 = 1*coords[2];
-		  y2 = 1*coords[3];
-		  sx1 = transformHoriz(x1);
-		  sy1 = transformVert(y1);
-		  sx2 = transformHoriz(x2);
-		  sy2 = transformVert(y2);
-		  coordinates.push([sx1,sy1,sx2,sy2]);
-		  lastsx = sx2;
-		  lastsy = sy2;
+			c1 = [ 1*coords[0], 1*coords[1] ];
+			c2 = [ 1*coords[2], 1*coords[3] ];
+			x1 = c1[0];
+			y1 = c1[1];
+			x2 = c2[0];
+			y2 = c2[1];
+			sx1 = transformHoriz(x1);
+			sy1 = transformVert(y1);
+			sx2 = transformHoriz(x2);
+			sy2 = transformVert(y2);
+			coordinates.push([sx1,sy1,sx2,sy2]);
+			lastsx = sx2;
+			lastsy = sy2;
 		} else if (coords.length == 2) {
-		  x2 = 1*coords[0];
-		  y2 = 1*coords[1];
-		  sx2 = transformHoriz(x2);
-		  sy2 = transformVert(y2);
-		  coordinates.push([lastsx,lastsy,sx2,sy2]);
-		  lastsx = sx2;
-		  lastsy = sy2;
+			x2 = 1*coords[0];
+			y2 = 1*coords[1];
+			sx2 = transformHoriz(x2);
+			sy2 = transformVert(y2);
+			coordinates.push([lastsx,lastsy,sx2,sy2]);
+			lastsx = sx2;
+			lastsy = sy2;
+		}
+		if (coords.length > 4) {
 		}
 	}
 	drawSVGLines( coordinates )
