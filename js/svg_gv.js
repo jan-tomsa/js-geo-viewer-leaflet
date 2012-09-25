@@ -26,12 +26,28 @@ function drawInitial(svg) {
 
 var colours = ['purple', 'red', 'orange', 'yellow', 'lime', 'green', 'blue', 'navy', 'black'];
 
-function transformX( x ) {
-	return x;
+function transformHoriz( x ) {
+	gxl = 1 * $("#y1")[0].value;
+	gxr = 1 * $("#y2")[0].value;
+	dx = gxr - gxl;
+	if (Math.abs(x) < 420000) {
+		return x;  // no transformation
+	} else {
+		rawsx = ((x-gxr)/dx*1000)
+		return 1000+rawsx;
+	}
 }
 
-function transformY( y ) {
-	return y;
+function transformVert( y ) {
+	gyb = 1 * $("#x1")[0].value;
+	gyt = 1 * $("#x2")[0].value;
+	dy = gyt - gyb;
+	if (Math.abs(y) < 950000) {
+		return y;  // no transformation
+	} else {
+		rawsy = (y-gyt)/dy*700;
+		return -rawsy;
+	}
 }
 
 function drawLines() {
@@ -47,18 +63,18 @@ function drawLines() {
 		  y1 = 1*coords[1];
 		  x2 = 1*coords[2];
 		  y2 = 1*coords[3];
-		  sx1 = transformX(x1);
-		  sy1 = transformY(y1);
-		  sx2 = transformX(x2);
-		  sy2 = transformY(y2);
+		  sx1 = transformHoriz(x1);
+		  sy1 = transformVert(y1);
+		  sx2 = transformHoriz(x2);
+		  sy2 = transformVert(y2);
 		  coordinates.push([sx1,sy1,sx2,sy2]);
 		  lastsx = sx2;
 		  lastsy = sy2;
 		} else if (coords.length == 2) {
 		  x2 = 1*coords[0];
 		  y2 = 1*coords[1];
-		  sx2 = transformX(x2);
-		  sy2 = transformY(y2);
+		  sx2 = transformHoriz(x2);
+		  sy2 = transformVert(y2);
 		  coordinates.push([lastsx,lastsy,sx2,sy2]);
 		  lastsx = sx2;
 		  lastsy = sy2;
