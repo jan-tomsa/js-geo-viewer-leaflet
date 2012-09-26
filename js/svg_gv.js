@@ -50,6 +50,28 @@ function transformVert( y ) {
 	}
 }
 
+function extractHoriz( coo ) {
+	cooHoriz = Math.min(Math.abs(coo[0]),Math.abs(coo[1]));
+	if (cooHoriz > 500000000) {
+		return -cooHoriz/1000;
+	} else {
+		return -cooHoriz;
+	}
+}
+
+function extractVert( coo ) {
+	cooVert = Math.max(Math.abs(coo[0]),Math.abs(coo[1])); 
+	if (cooVert > 900000000) {
+		return -cooVert/1000;
+	} else {
+		return -cooVert;
+	}
+}
+
+function isEven( n ) { 
+	return ((n%2) == 0); 
+}
+
 function drawLines() {
 	var myScript = $('#myScript')[0].value;
 	var scriptLines = myScript.split("\n");
@@ -61,10 +83,10 @@ function drawLines() {
 		if (coords.length > 3) {
 			c1 = [ 1*coords[0], 1*coords[1] ];
 			c2 = [ 1*coords[2], 1*coords[3] ];
-			x1 = c1[0];
-			y1 = c1[1];
-			x2 = c2[0];
-			y2 = c2[1];
+			x1 = extractHoriz(c1);
+			y1 = extractVert(c1);
+			x2 = extractHoriz(c2);
+			y2 = extractVert(c2);
 			sx1 = transformHoriz(x1);
 			sy1 = transformVert(y1);
 			sx2 = transformHoriz(x2);
@@ -73,8 +95,9 @@ function drawLines() {
 			lastsx = sx2;
 			lastsy = sy2;
 		} else if (coords.length == 2) {
-			x2 = 1*coords[0];
-			y2 = 1*coords[1];
+			c2 = [ 1*coords[0], 1*coords[1] ];
+			x2 = extractHoriz(c2);
+			y2 = extractVert(c2);
 			sx2 = transformHoriz(x2);
 			sy2 = transformVert(y2);
 			coordinates.push([lastsx,lastsy,sx2,sy2]);
@@ -82,6 +105,18 @@ function drawLines() {
 			lastsy = sy2;
 		}
 		if (coords.length > 4) {
+			for (coord in coords) {
+				if (coord>3 && isEven(coord)) {
+					c2 = [ 1*coords[coord], 1*coords[1*coord+1] ];
+					x2 = extractHoriz(c2);
+					y2 = extractVert(c2);
+					sx2 = transformHoriz(x2);
+					sy2 = transformVert(y2);
+					coordinates.push([lastsx,lastsy,sx2,sy2]);
+					lastsx = sx2;
+					lastsy = sy2;
+				}
+			}
 		}
 	}
 	drawSVGLines( coordinates )
