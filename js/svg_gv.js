@@ -78,40 +78,40 @@ function drawLines() {
 	var coordinates = [];
 	lastx = 0;
 	lasty = 0;
+        var sdoLinePatt="MDSYS.SDO_GEOMETRY(2002,NULL,NULL,MDSYS.SDO_ELEM_INFO_ARRAY(1,2,1),MDSYS.SDO_ORDINATE_ARRAY(";
 	for (line in scriptLines) {
-		coords = scriptLines[line].trim().split(/[ ,]+/);
+		currentLine = scriptLines[line].trim();
+		if (currentLine.substr(0,92) == sdoLinePatt) {
+			line = currentLine.substr(92);
+		} else {
+			alert('Oops!');
+			line = currentLine;
+		}
+		coords = line.split(/[ ,\)]+/);
 		if (coords.length > 3) {
 			c1 = [ 1*coords[0], 1*coords[1] ];
 			c2 = [ 1*coords[2], 1*coords[3] ];
-			x1 = extractHoriz(c1);
-			y1 = extractVert(c1);
-			x2 = extractHoriz(c2);
-			y2 = extractVert(c2);
-			sx1 = transformHoriz(x1);
-			sy1 = transformVert(y1);
-			sx2 = transformHoriz(x2);
-			sy2 = transformVert(y2);
+			sx1 = transformHoriz(extractHoriz(c1));
+			sy1 = transformVert(extractVert(c1));
+			sx2 = transformHoriz(extractHoriz(c2));
+			sy2 = transformVert(extractVert(c2));
 			coordinates.push([sx1,sy1,sx2,sy2]);
 			lastsx = sx2;
 			lastsy = sy2;
 		} else if (coords.length == 2) {
 			c2 = [ 1*coords[0], 1*coords[1] ];
-			x2 = extractHoriz(c2);
-			y2 = extractVert(c2);
-			sx2 = transformHoriz(x2);
-			sy2 = transformVert(y2);
+			sx2 = transformHoriz(extractHoriz(c2));
+			sy2 = transformVert(extractVert(c2));
 			coordinates.push([lastsx,lastsy,sx2,sy2]);
 			lastsx = sx2;
 			lastsy = sy2;
 		}
 		if (coords.length > 4) {
 			for (coord in coords) {
-				if (coord>3 && isEven(coord)) {
+				if (coord>3 && isEven(coord) && (coords[coord] != "")) {
 					c2 = [ 1*coords[coord], 1*coords[1*coord+1] ];
-					x2 = extractHoriz(c2);
-					y2 = extractVert(c2);
-					sx2 = transformHoriz(x2);
-					sy2 = transformVert(y2);
+					sx2 = transformHoriz(extractHoriz(c2));
+					sy2 = transformVert(extractVert(c2));
 					coordinates.push([lastsx,lastsy,sx2,sy2]);
 					lastsx = sx2;
 					lastsy = sy2;
