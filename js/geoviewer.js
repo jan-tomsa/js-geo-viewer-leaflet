@@ -1,10 +1,8 @@
-function changeSrc( newSrc )
-{
-	document.getElementById("contents").src=newSrc
+function changeSrc( newSrc ) {
+	document.getElementById("contents").src=newSrc;
 }
 
-function displayMap()
-{
+function displayMap() {
 	x1 = document.forms.frm1.x1.value;
 	x2 = document.forms.frm1.x2.value;
 	y1 = document.forms.frm1.y1.value;
@@ -19,10 +17,99 @@ function displayMap()
 	changeSrc( src );
 }
 
-function preset(y1,x1,y2,x2)
-{
+function preset(y1,x1,y2,x2) {
 	document.forms.frm1.x1.value = x1;
 	document.forms.frm1.x2.value = x2;
 	document.forms.frm1.y1.value = y1;
 	document.forms.frm1.y2.value = y2;
+	autoDisplay = document.getElementById("autoDisplay").checked;
+	if (autoDisplay) {
+		clearLines();
+		displayMap();
+		drawLines();
+	}
+}
+
+function zoomIn() {
+	oldX1 = 1 * document.forms.frm1.x1.value;
+	oldY1 = 1 * document.forms.frm1.y1.value;
+	oldX2 = 1 * document.forms.frm1.x2.value;
+	oldY2 = 1 * document.forms.frm1.y2.value;
+	height = oldX2 - oldX1;
+	width = oldY2 - oldY1;
+	newX1 = oldX1 + (height/4);
+	newY1 = oldY1 + (width/4);
+	newX2 = oldX2 - (height/4);
+	newY2 = oldY2 - (width/4);
+	preset(newY1, newX1, newY2, newX2);
+}
+
+function zoomOut() {
+	oldX1 = 1 * document.forms.frm1.x1.value;
+	oldY1 = 1 * document.forms.frm1.y1.value;
+	oldX2 = 1 * document.forms.frm1.x2.value;
+	oldY2 = 1 * document.forms.frm1.y2.value;
+	height = oldX2 - oldX1;
+	width = oldY2 - oldY1;
+	newX1 = oldX1 - (height/4);
+	newY1 = oldY1 - (width/4);
+	newX2 = oldX2 + (height/4);
+	newY2 = oldY2 + (width/4);
+	preset(newY1, newX1, newY2, newX2);
+}
+
+function panWest() {
+	oldX1 = 1 * document.forms.frm1.x1.value;
+	oldY1 = 1 * document.forms.frm1.y1.value;
+	oldX2 = 1 * document.forms.frm1.x2.value;
+	oldY2 = 1 * document.forms.frm1.y2.value;
+	height = oldX2 - oldX1;
+	width = oldY2 - oldY1;
+	newX1 = oldX1;
+	newY1 = oldY1 - (width/3);
+	newX2 = oldX2;
+	newY2 = oldY2 - (width/3);
+	preset(newY1, newX1, newY2, newX2);
+}
+
+function panEast() {
+	oldX1 = 1 * document.forms.frm1.x1.value;
+	oldY1 = 1 * document.forms.frm1.y1.value;
+	oldX2 = 1 * document.forms.frm1.x2.value;
+	oldY2 = 1 * document.forms.frm1.y2.value;
+	height = oldX2 - oldX1;
+	width = oldY2 - oldY1;
+	newX1 = oldX1;
+	newY1 = oldY1 + (width/3);
+	newX2 = oldX2;
+	newY2 = oldY2 + (width/3);
+	preset(newY1, newX1, newY2, newX2);
+}
+
+function panNorth() {
+	oldX1 = 1 * document.forms.frm1.x1.value;
+	oldY1 = 1 * document.forms.frm1.y1.value;
+	oldX2 = 1 * document.forms.frm1.x2.value;
+	oldY2 = 1 * document.forms.frm1.y2.value;
+	height = oldX2 - oldX1;
+	width = oldY2 - oldY1;
+	newX1 = oldX1 + (height/3);
+	newY1 = oldY1;
+	newX2 = oldX2 + (height/3);
+	newY2 = oldY2;
+	preset(newY1, newX1, newY2, newX2);
+}
+
+function panSouth() {
+	oldX1 = 1 * document.forms.frm1.x1.value;
+	oldY1 = 1 * document.forms.frm1.y1.value;
+	oldX2 = 1 * document.forms.frm1.x2.value;
+	oldY2 = 1 * document.forms.frm1.y2.value;
+	height = oldX2 - oldX1;
+	width = oldY2 - oldY1;
+	newX1 = oldX1 - (height/3);
+	newY1 = oldY1;
+	newX2 = oldX2 - (height/3);
+	newY2 = oldY2;
+	preset(newY1, newX1, newY2, newX2);
 }

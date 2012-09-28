@@ -1,5 +1,6 @@
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-2">
 <style type="text/css">
 @import "css/jquery.svg.css";
 
@@ -14,14 +15,21 @@
 	<table>
 		<tr>
 			<td valign="top">
-	<a href="controls.html">Refresh</a>
 	<form name="frm1">
-		Y1: <input type="text" id="y1" name="y1" value="-526404">(left [&lt;])<br/>
-		X1: <input type="text" id="x1" name="x1" value="-1152840">(bottom [v&lt;])<br/>
-		Y2: <input type="text" id="y2" name="y2" value="-526216">(right [&gt;])<br/>
 		X2: <input type="text" id="x2" name="x2" value="-1152710">(top [^&gt;])<br/>
+		Y1: <input type="text" id="y1" name="y1" value="-526404">(left [&lt;])<br/>
+		Y2: <input type="text" id="y2" name="y2" value="-526216">(right [&gt;])<br/>
+		X1: <input type="text" id="x1" name="x1" value="-1152840">(bottom [v&lt;])<br/>
 		(0,0 je někde v Estonsku)
 		<input type="button" value="Display" onClick="displayMap()">
+		<input type="checkbox" id="autoDisplay" value="Auto" title="Display automatically" checked="checked">Auto<br/>
+		<input type="button" value="+" onClick="zoomIn()"  title="Zoom In">
+		<input type="button" value="-" onClick="zoomOut()" title="Zoom Out">
+		|
+		<input type="button" value="<" onClick="panWest()" title="West">
+		<input type="button" value="^" onClick="panNorth()" title="North">
+		<input type="button" value="v" onClick="panSouth()" title="South">
+		<input type="button" value=">" onClick="panEast()" title="East">
 		<hr>
 		<strong>Layers:</strong>
 		<input type="text" name="layers" size="35" value="prehledka_kat_prac,dalsi_p_mapy,hranice_parcel,obrazy_parcel,parcelni_cisla,prehledka_kat_uz,prehledka_kraju-linie,RST_KMD,RST_KN">
@@ -45,8 +53,8 @@
 		<li><a name="x" href="javascript:preset(-977587.94488189,-1243857,    -358590.05511811,-919011)">ČR</a></li>
 		<li><a name="x" href="javascript:preset(-751953.740,     -1050784.170,-751938.000,    -1050779.690)">k.ú.(745278)</a></li>
 		<li><a name="x" href="javascript:preset(-729005.590,     -1058077.680,-724288.470,    -1053889.500)">Říčany u Prahy</a></li>
-		<li><a name="x" href="javascript:preset(-727280.85,      -1055672.75, -725083.79,     -1053948.53)">Říčany-Radoovice</a></li>
-		<li><a name="x" href="javascript:preset(-727080.85,-1055072.75,-726083.79,-1054048.53)">Říčany-Radoovice2</a></li>
+		<li><a name="x" href="javascript:preset(-727280.85,      -1055672.75, -725083.79,     -1053948.53)">Říčany-Radosovice</a></li>
+		<li><a name="x" href="javascript:preset(-727080.85,-1055072.75,-726083.79,-1054048.53)">Říčany-Radosovice2</a></li>
 		<li><a name="x" href="javascript:preset(-726450.670,-1054907.860,-726300.670,-1054807.860)">Parcela 95/8</a></li>
 		<li><a name="x" href="javascript:preset(-726450.67,-1054900,-726300.67,-1054810)">Parcela 95/8(closer)</a></li>
 		<li><a name="x" href="javascript:preset(-739622.34,-1044729.14,-739599.19,-1044697.3)">Vinohrady č.p.2460</a></li>
@@ -57,14 +65,9 @@
 		<li><a name="x" href="javascript:preset(-754710,-1163017,-753800,-1162373)">Ceske Budejovice - Nemanice 3</a></li>
 		<li><a name="x" href="javascript:preset(-755810,-1163787,-753700,-1162303)">Ceske Budejovice</a></li>
 		<li><a name="x" href="javascript:preset(-601600,-1157480,-601500,-1157400)">Brno</a></li>
+		<li><a name="x" href="javascript:preset(-670100.15,-995853.79,-666498.81,-992517.23)">Benesov u Semil</a></li>
+		<li><a name="x" href="javascript:preset(-667811.8,-995262.9,-667586.7,-995054.4)">Benesov u Semil - stopka</a></li>
 	</ul>
-	<hr />
-	<h3>SVG</h3>
-	<p>Coordinates script:</p>
-	<textarea id="myScript" rows="6">10 10 990 10
-990 690
-10 690
-10 10</textarea>
 			</td>
 			<td valign="top">
 			<img id="contents" src="http://docutils.sourceforge.net/docs/user/images/rsp-empty.png" width="1000" height="700" />
@@ -74,6 +77,15 @@
 </p>
 <div id="svgbasics" style="position:absolute;"></div>
 <div id="svgexport"></div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+	<h3>SVG</h3>
+	<p>Coordinates script:</p>
+			</td>
+			<td>
+				<textarea id="myScript" rows="6" cols="140" style="font-family:Consolas">MDSYS.SDO_GEOMETRY(2002,NULL,NULL,MDSYS.SDO_ELEM_INFO_ARRAY(1,2,1),MDSYS.SDO_ORDINATE_ARRAY(995142370,667673990,995123440,667639560))</textarea>
 			</td>
 		</tr>
 	</table>
