@@ -26,7 +26,7 @@ function preset(y1,x1,y2,x2) {
 	if (autoDisplay) {
 		clearLines();
 		displayMap();
-		drawLines();
+		processScript();
 	}
 }
 
