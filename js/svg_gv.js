@@ -82,44 +82,73 @@ function gatherWorldCoordinatesFromScript( script ) {
 var sdoLinePatt="MDSYS.SDO_GEOMETRY(2002,NULL,NULL,MDSYS.SDO_ELEM_INFO_ARRAY(1,2,1),MDSYS.SDO_ORDINATE_ARRAY(";
 var sdoRectPatt="MDSYS.SDO_GEOMETRY(2003,NULL,NULL,MDSYS.SDO_ELEM_INFO_ARRAY(1,1003,3),MDSYS.SDO_ORDINATE_ARRAY(";
 
-function processLine(currentLine, coordinates) {
+function isNumber( ch ) {
+	return ch.search(/\d/) >= 0;
+}
+
+function processCoordinatesLine(currentLine, coordinates) {
+	coords = line.split(/[ ,\)]+/);
+	if (coords.length > 3) {
+		c1 = [ 1*coords[0], 1*coords[1] ];
+		c2 = [ 1*coords[2], 1*coords[3] ];
+		sx1 = transformHoriz(extractHoriz(c1));
+		sy1 = transformVert(extractVert(c1));
+		sx2 = transformHoriz(extractHoriz(c2));
+		sy2 = transformVert(extractVert(c2));
+		coordinates.push({x1: sx1, y1: sy1, x2: sx2, y2: sy2, color: currentColor, width: currentWidth});
+		lastsx = sx2;
+		lastsy = sy2;
+	} else if (coords.length == 2) {
+		c2 = [ 1*coords[0], 1*coords[1] ];
+		sx2 = transformHoriz(extractHoriz(c2));
+		sy2 = transformVert(extractVert(c2));
+		coordinates.push({x1: lastsx, y1: lastsy, x2: sx2, y2: sy2, color: currentColor, width: currentWidth});
+		lastsx = sx2;
+		lastsy = sy2;
+	}
+	if (coords.length > 4) {
+		for (coord in coords) {
+			if (coord>3 && isEven(coord) && (coords[coord] != "")) {
+				c2 = [ 1*coords[coord], 1*coords[1*coord+1] ];
+				sx2 = transformHoriz(extractHoriz(c2));
+				sy2 = transformVert(extractVert(c2));
+				coordinates.push({x1: lastsx, y1: lastsy, x2: sx2, y2: sy2, color: currentColor, width: currentWidth});
+				lastsx = sx2;
+				lastsy = sy2;
+			}
+		}
+	}
+}
+
+function processCommandLine(currentLine, coordinates) {
+	lineParts = currentLine.split(" ");
+	command = lineParts[0];
+	args = [];
+	for (part in lineParts) {
+		if (part>0) {
+			args.push(lineParts[part]);
+		}
+	}
+	if (command == "color") {
+		currentColor = args[0];
+	}
+	if (command == "width") {
+		currentWidth = args[0];
+	}
+}
+
+function processScriptLine(currentLine, coordinates) {
 	if (currentLine != "") {
 		if (currentLine.substr(0,92) == sdoLinePatt) {
 			line = currentLine.substr(92);
 		} else {
-			alert('Oops!');
 			line = currentLine;
 		}
-		coords = line.split(/[ ,\)]+/);
-		if (coords.length > 3) {
-			c1 = [ 1*coords[0], 1*coords[1] ];
-			c2 = [ 1*coords[2], 1*coords[3] ];
-			sx1 = transformHoriz(extractHoriz(c1));
-			sy1 = transformVert(extractVert(c1));
-			sx2 = transformHoriz(extractHoriz(c2));
-			sy2 = transformVert(extractVert(c2));
-			coordinates.push([sx1,sy1,sx2,sy2]);
-			lastsx = sx2;
-			lastsy = sy2;
-		} else if (coords.length == 2) {
-			c2 = [ 1*coords[0], 1*coords[1] ];
-			sx2 = transformHoriz(extractHoriz(c2));
-			sy2 = transformVert(extractVert(c2));
-			coordinates.push([lastsx,lastsy,sx2,sy2]);
-			lastsx = sx2;
-			lastsy = sy2;
-		}
-		if (coords.length > 4) {
-			for (coord in coords) {
-				if (coord>3 && isEven(coord) && (coords[coord] != "")) {
-					c2 = [ 1*coords[coord], 1*coords[1*coord+1] ];
-					sx2 = transformHoriz(extractHoriz(c2));
-					sy2 = transformVert(extractVert(c2));
-					coordinates.push([lastsx,lastsy,sx2,sy2]);
-					lastsx = sx2;
-					lastsy = sy2;
-				}
-			}
+		firstChar = line.charAt(0);
+		if (isNumber(firstChar)) {
+			processCoordinatesLine(line, coordinates);
+		} else {
+			processCommandLine(line, coordinates);
 		}
 	}
 }
@@ -130,9 +159,11 @@ function processScript() {
 	var coordinates = [];
 	lastx = 0;
 	lasty = 0;
+	currentColor = "red"
+	currentWidth = 1
 	for (line in scriptLines) {
 		currentLine = scriptLines[line].trim();
-		processLine(currentLine,coordinates)
+		processScriptLine(currentLine,coordinates)
 	}
 	drawSVGLines( coordinates )
 }
@@ -141,7 +172,7 @@ function drawSVGLines( coordinates ) {
 	var svg = $('#svgbasics').svg('get');
 	for (lineCoords in coordinates) {
 		lc = coordinates[lineCoords];
-		svg.line(lc[0], lc[1], lc[2], lc [3], {stroke: 'red', 'stroke-width': 1});
+		svg.line(lc.x1, lc.y1, lc.x2, lc.y2, {stroke: lc.color, 'stroke-width': lc.width});
 	}
 }
 
