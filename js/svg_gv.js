@@ -135,6 +135,12 @@ function processCommandLine(currentLine, coordinates) {
 	if (command == "width") {
 		currentWidth = args[0];
 	}
+	if (command == "text") {
+		textValue = args[0];
+		textX = transformHoriz(extractHoriz([args[1],args[2]]));
+		textY = transformVert(extractVert([args[1],args[2]]));
+		coordinates.push({x1: textX, y1: textY, text: textValue, color: currentColor, width: currentWidth});
+	}
 }
 
 function processScriptLine(currentLine, coordinates) {
@@ -172,7 +178,11 @@ function drawSVGLines( coordinates ) {
 	var svg = $('#svgbasics').svg('get');
 	for (lineCoords in coordinates) {
 		lc = coordinates[lineCoords];
-		svg.line(lc.x1, lc.y1, lc.x2, lc.y2, {stroke: lc.color, 'stroke-width': lc.width});
+		if (lc.text == null) {
+			svg.line(lc.x1, lc.y1, lc.x2, lc.y2, {stroke: lc.color, 'stroke-width': lc.width});
+		} else {
+			svg.text(null, lc.x1, lc.y1, lc.text, {stroke: lc.color, 'stroke-width': lc.width});
+		}
 	}
 }
 
