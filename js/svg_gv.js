@@ -35,8 +35,8 @@ function transformHoriz( x ) {
 	if (Math.abs(x) < 420000) {
 		return x;  // no transformation
 	} else {
-		rawsx = ((x-gxr)/dx*1000)
-		return 1000+rawsx;
+		rawsx = ((Math.abs(x)-Math.abs(gxr))/dx*1000)
+		return 1000-rawsx;
 	}
 }
 
@@ -47,26 +47,26 @@ function transformVert( y ) {
 	if (Math.abs(y) < 950000) {
 		return y;  // no transformation
 	} else {
-		rawsy = (y-gyt)/dy*700;
-		return -rawsy;
+		rawsy = (Math.abs(y)-Math.abs(gyt))/dy*700;
+		return rawsy;
 	}
 }
 
 function extractHoriz( coo ) {
 	cooHoriz = Math.min(Math.abs(coo[0]),Math.abs(coo[1]));
 	if (cooHoriz > 500000000) {
-		return -cooHoriz/1000;
+		return cooHoriz/1000;
 	} else {
-		return -cooHoriz;
+		return cooHoriz;
 	}
 }
 
 function extractVert( coo ) {
 	cooVert = Math.max(Math.abs(coo[0]),Math.abs(coo[1])); 
 	if (cooVert > 900000000) {
-		return -cooVert/1000;
+		return cooVert/1000;
 	} else {
-		return -cooVert;
+		return cooVert;
 	}
 }
 
