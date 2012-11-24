@@ -183,6 +183,7 @@ function processScriptLine(currentLine, coordinates) {
 }
 
 function processScript() {
+	var start = new Date().getMilliseconds();
 	var myScript = $('#myScript')[0].value;
 	var scriptLines = myScript.split("\n");
 	var coordinates = [];
@@ -201,6 +202,10 @@ function processScript() {
 		processScriptLine(currentLine,coordinates)
 	}
 	drawSVGLines( coordinates )
+	var end = new Date().getMilliseconds();
+	var time = end - start;
+	var messagesSpan = $('#messages')[0];
+	messagesSpan.innerHTML = "elapsed time (ms): "+time
 }
 
 function drawSVGLines( coordinates ) {

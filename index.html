@@ -1,5 +1,6 @@
 <html>
 <head>
+<title>JS Geo viewer</title>
 <meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-2">
 <style type="text/css">
 @import "css/jquery.svg.css";
@@ -64,9 +65,11 @@
 		<li><a name="x" href="javascript:preset(-754700,-1162780,-754300,-1162500)">Ceske Budejovice - Nemanice 2</a></li>
 		<li><a name="x" href="javascript:preset(-754710,-1163017,-753800,-1162373)">Ceske Budejovice - Nemanice 3</a></li>
 		<li><a name="x" href="javascript:preset(-755810,-1163787,-753700,-1162303)">Ceske Budejovice</a></li>
+		<li><a name="x" href="javascript:preset(-755203.54,-1167822.49,-754038.51,-1166907.86)">Ceske Budejovice - MOMC</a></li>
 		<li><a name="x" href="javascript:preset(-601600,-1157480,-601500,-1157400)">Brno</a></li>
 		<li><a name="x" href="javascript:preset(-670100.15,-995853.79,-666498.81,-992517.23)">Benesov u Semil</a></li>
 		<li><a name="x" href="javascript:preset(-667811.8,-995262.9,-667586.7,-995054.4)">Benesov u Semil - stopka</a></li>
+		<li><a name="x" href="javascript:preset(-741067.19,-1044114.52,-740842.77,-1043958.01)">Praha-Zizkov - Skroupovo náměstí</a></li>
 	</ul>
 			</td>
 			<td valign="top">
@@ -74,6 +77,7 @@
 <p><button id="drawLines">Draw Lines</button>
    <button id="clear">Clear</button>
    <button id="export">Export</button>
+   <span id="messages">...</span>
 </p>
 <div id="svgbasics" style="position:absolute;"></div>
 <div id="svgexport"></div>
