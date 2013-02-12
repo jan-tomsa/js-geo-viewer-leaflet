@@ -2,6 +2,7 @@ $(function() {
 	$('#svgbasics').svg({onLoad: drawInitial});
 	$('#rect,#line,#circle,#ellipse').click(drawShape);
 	$('#drawLines').click(processScript);
+	$('#mbr').click(calculateMBR);
 	$('#clear').click(clearLines);
 	$('#export').click(function() {
 		var xml = $('#svgbasics').svg('get').toSVG();
@@ -182,8 +183,7 @@ function processScriptLine(currentLine, coordinates) {
 	}
 }
 
-function processScript() {
-	var start = new Date().getMilliseconds();
+function processScriptToCoordinates() {
 	var myScript = $('#myScript')[0].value;
 	var scriptLines = myScript.split("\n");
 	var coordinates = [];
@@ -199,8 +199,26 @@ function processScript() {
 	currentWidth = 1
 	for (line in scriptLines) {
 		currentLine = scriptLines[line].trim();
-		processScriptLine(currentLine,coordinates)
+		processScriptLine(currentLine,coordinates);
 	}
+	return coordinates;
+}
+
+function calculateMBR() {
+	var coordinates = processScriptToCoordinates();
+	var y1=-coordinates[0].y1;
+	var y2=-coordinates[0].y2;
+	var x1=-coordinates[0].x1;
+	var x2=-coordinates[0].x2;
+	$("#y1")[0].value=y1;
+	$("#y2")[0].value=y2;
+	$("#x1")[0].value=x1;
+	$("#x2")[0].value=x2;
+}
+
+function processScript() {
+	var start = new Date().getMilliseconds();
+	var coordinates = processScriptToCoordinates();
 	drawSVGLines( coordinates )
 	var end = new Date().getMilliseconds();
 	var time = end - start;
