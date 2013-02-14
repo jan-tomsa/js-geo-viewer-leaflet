@@ -102,20 +102,36 @@ function processCoordinatesLine(currentLine, coordinates) {
 	if (coords.length > 3) {
 		c1 = [ 1*coords[0], 1*coords[1] ];
 		c2 = [ 1*coords[2], 1*coords[3] ];
-		sx1 = transformHoriz(extractHoriz(c1));
-		sy1 = transformVert(extractVert(c1));
-		sx2 = transformHoriz(extractHoriz(c2));
-		sy2 = transformVert(extractVert(c2));
-		coordinates.push({x1: sx1, y1: sy1, x2: sx2, y2: sy2, color: currentColor, strokeWidth: currentWidth, type: 'line'});
+		ox1 = extractHoriz(c1);
+		oy1 = extractVert(c1);
+		ox2 = extractHoriz(c2);
+		oy2 = extractVert(c2);
+		sx1 = transformHoriz(ox1);
+		sy1 = transformVert(oy1);
+		sx2 = transformHoriz(ox2);
+		sy2 = transformVert(oy2);
+		coordinates.push({x1: sx1, y1: sy1, x2: sx2, y2: sy2, 
+                                  ox1: ox1, oy1: oy1, ox2: ox2, oy2: oy2, 
+					color: currentColor, strokeWidth: currentWidth, 
+					type: 'line'});
+		lastox = ox2;
+		lastoy = oy2;
 		lastsx = sx2;
 		lastsy = sy2;
 	} else if (coords.length == 2) {
 		c2 = [ 1*coords[0], 1*coords[1] ];
-		sx2 = transformHoriz(extractHoriz(c2));
-		sy2 = transformVert(extractVert(c2));
+		ox2 = extractHoriz(c2);
+		oy2 = extractVert(c2);
+		sx2 = transformHoriz(ox2);
+		sy2 = transformVert(oy2);
 		try {
-			coordinates.push({x1: lastsx, y1: lastsy, x2: sx2, y2: sy2, color: currentColor, strokeWidth: currentWidth, type: 'line'});
+			coordinates.push({x1: lastsx, y1: lastsy, x2: sx2, y2: sy2, 
+                                  	  ox1: ox1, oy1: oy1, ox2: ox2, oy2: oy2, 
+						color: currentColor, strokeWidth: currentWidth, 
+						type: 'line'});
 		} catch(err) {} // Pokémon
+		lastox = ox2;
+		lastoy = oy2;
 		lastsx = sx2;
 		lastsy = sy2;
 	}
@@ -123,9 +139,15 @@ function processCoordinatesLine(currentLine, coordinates) {
 		for (coord in coords) {
 			if (coord>3 && isEven(coord) && (coords[coord] != "")) {
 				c2 = [ 1*coords[coord], 1*coords[1*coord+1] ];
-				sx2 = transformHoriz(extractHoriz(c2));
-				sy2 = transformVert(extractVert(c2));
-				coordinates.push({x1: lastsx, y1: lastsy, x2: sx2, y2: sy2, color: currentColor, strokeWidth: currentWidth, type: 'line'});
+				ox2 = extractHoriz(c2);
+				oy2 = extractVert(c2);
+				sx2 = transformHoriz(ox2);
+				sy2 = transformVert(oy2);
+				coordinates.push({x1: lastsx, y1: lastsy, x2: sx2, y2: sy2, 
+							color: currentColor, strokeWidth: currentWidth, 
+							type: 'line'});
+				lastox = ox2;
+				lastoy = oy2;
 				lastsx = sx2;
 				lastsy = sy2;
 			}
@@ -206,14 +228,27 @@ function processScriptToCoordinates() {
 
 function calculateMBR() {
 	var coordinates = processScriptToCoordinates();
-	var y1=-coordinates[0].y1;
-	var y2=-coordinates[0].y2;
-	var x1=-coordinates[0].x1;
-	var x2=-coordinates[0].x2;
-	$("#y1")[0].value=y1;
-	$("#y2")[0].value=y2;
-	$("#x1")[0].value=x1;
-	$("#x2")[0].value=x2;
+	var y1=coordinates[0].oy1;
+	var y2=coordinates[0].oy2;
+	var x1=coordinates[0].ox1;
+	var x2=coordinates[0].ox2;
+	for (coord in coordinates) {
+		xMax = Math.max(coordinates[coord].ox1,coordinates[coord].ox2)
+		xMin = Math.min(coordinates[coord].ox1,coordinates[coord].ox2)
+		yMax = Math.max(coordinates[coord].oy1,coordinates[coord].oy2)
+		yMin = Math.min(coordinates[coord].oy1,coordinates[coord].oy2)
+		if (x1 > xMax) x1=xMax;
+		if (x2 < xMin) x2=xMin;
+		if (y1 > yMax) y1=yMax;
+		if (y2 < yMin) y2=yMin;
+	}
+	$("#y1")[0].value=-x2;
+	$("#y2")[0].value=-x1;
+	$("#x1")[0].value=-y2;
+	$("#x2")[0].value=-y1;
+	clearLines();
+	displayMap();
+	processScript();
 }
 
 function processScript() {
