@@ -78,6 +78,16 @@ function isNumber( ch ) {
 	return ch.search(/\d/) >= 0;
 }
 
+function processPointLine(currentLine, coordinates) {
+	coords = line.split(/[ ,\)]+/);
+	c1 = [ 1*coords[0], 1*coords[1] ];
+	x1 = transformHoriz(extractHoriz(c1));
+	y1 = transformVert(extractVert(c1));
+	coordinates.push({x1: x1, y1: y1, color: currentColor, strokeWidth: currentWidth, type: 'point'});
+	lastsx = sx1;
+	lastsy = sy1;
+}
+
 function processRectangleLine(currentLine, coordinates) {
 	coords = line.split(/[ ,\)]+/);
 	c1 = [ 1*coords[0], 1*coords[1] ];
@@ -178,13 +188,17 @@ function processCommandLine(currentLine, coordinates) {
 	}
 }
 
-var sdoLinePatt="MDSYS.SDO_GEOMETRY(2002,NULL,NULL,MDSYS.SDO_ELEM_INFO_ARRAY(1,2,1),MDSYS.SDO_ORDINATE_ARRAY(";
-var sdoRectPatt="MDSYS.SDO_GEOMETRY(2003,NULL,NULL,MDSYS.SDO_ELEM_INFO_ARRAY(1,1003,3),MDSYS.SDO_ORDINATE_ARRAY(";
+var sdoPointPatt="MDSYS.SDO_GEOMETRY(2001,NULL,NULL,MDSYS.SDO_ELEM_INFO_ARRAY(1,1,1),MDSYS.SDO_ORDINATE_ARRAY(";
+var sdoLinePatt ="MDSYS.SDO_GEOMETRY(2002,NULL,NULL,MDSYS.SDO_ELEM_INFO_ARRAY(1,2,1),MDSYS.SDO_ORDINATE_ARRAY(";
+var sdoRectPatt ="MDSYS.SDO_GEOMETRY(2003,NULL,NULL,MDSYS.SDO_ELEM_INFO_ARRAY(1,1003,3),MDSYS.SDO_ORDINATE_ARRAY(";
 
 function processScriptLine(currentLine, coordinates) {
 	if (currentLine != "") {
 		geomType = "line";  // default
-		if (currentLine.substr(0,92) == sdoLinePatt) {
+		if (currentLine.substr(0,92) == sdoPointPatt) {
+			line = currentLine.substr(92);
+			geomType = "point"
+		} else if (currentLine.substr(0,92) == sdoLinePatt) {
 			line = currentLine.substr(92);
 		} else if (currentLine.substr(0,95) == sdoRectPatt) {
 			line = currentLine.substr(95);
@@ -196,6 +210,8 @@ function processScriptLine(currentLine, coordinates) {
 		if (isNumber(firstChar)) {
 			if (geomType == "line") {
 				processCoordinatesLine(line, coordinates);
+			} else if (geomType == "point") {
+				processPointLine(line, coordinates);
 			} else {
 				processRectangleLine(line, coordinates);
 			}
@@ -269,6 +285,9 @@ function drawSVGLines( coordinates ) {
 			svg.line(lc.x1, lc.y1, lc.x2, lc.y2, {stroke: lc.color, 'stroke-width': lc.strokeWidth});
 		} else if (lc.type == 'rect') {
 			svg.rect(lc.x1, lc.y1, lc.width, lc.height, {fill: 'none',stroke: lc.color, 'stroke-width': lc.strokeWidth});
+		} else if (lc.type == 'point') {
+			svg.line(lc.x1-15, lc.y1, lc.x1+15, lc.y1, {stroke: lc.color, 'stroke-width': lc.strokeWidth});
+			svg.line(lc.x1, lc.y1-15, lc.x1, lc.y1+15, {stroke: lc.color, 'stroke-width': lc.strokeWidth});
 		} else {
 			svg.text(null, lc.x1, lc.y1, lc.text, {stroke: lc.color, 'stroke-width': lc.strokeWidth});
 		}
