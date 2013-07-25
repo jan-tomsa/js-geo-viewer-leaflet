@@ -108,7 +108,7 @@ function processRectangleLine(currentLine, coordinates) {
 }
 
 function processCoordinatesLine(currentLine, coordinates) {
-	coords = line.split(/[ ,\)]+/);
+	coords = line.split(/[ ,\)<]+/);
 	if (coords.length > 3) {
 		c1 = [ 1*coords[0], 1*coords[1] ];
 		c2 = [ 1*coords[2], 1*coords[3] ];
@@ -200,6 +200,8 @@ function processScriptLine(currentLine, coordinates) {
 			geomType = "point"
 		} else if (currentLine.substr(0,92) == sdoLinePatt) {
 			line = currentLine.substr(92);
+		} else if (/posList/.test(currentLine)) {
+			line = currentLine.match(/posList>.*</)[0].substr(8,currentLine.length)
 		} else if (currentLine.substr(0,95) == sdoRectPatt) {
 			line = currentLine.substr(95);
 			geomType = "rect";
