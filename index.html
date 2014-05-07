@@ -32,8 +32,16 @@
 		<input type="button" value="v" onClick="panSouth()" title="South">
 		<input type="button" value=">" onClick="panEast()" title="East">
 		<hr>
+		<div>WMS: <select id="wms" name="wms" size="1">
+				<option value="http://wms.cuzk.cz/wms.asp?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap">Old WMS</option>
+				<option value="http://services.cuzk.cz/wms/local-ux-wms.asp?service=WMS&version=1.3.0&request=getMap&CRS=EPSG:102066">New WMS</option>
+			</select>
+		</div>
 		<strong>Layers:</strong>
-		<input type="text" name="layers" size="35" value="prehledka_kat_prac,dalsi_p_mapy,hranice_parcel,obrazy_parcel,parcelni_cisla,prehledka_kat_uz,prehledka_kraju-linie,RST_KMD,RST_KN">
+		<select name="layers" size="1">
+		        <option value="prehledka_kat_prac,dalsi_p_mapy,hranice_parcel,obrazy_parcel,parcelni_cisla,prehledka_kat_uz,prehledka_kraju-linie,RST_KMD,RST_KN">old</option>
+			<option value="UX.RegionSoudrznosti.UnitLabel,UX.RegionSoudrznosti.Boundary,UX.ZSJ.UnitLabel,UX.ZSJ.Boundary,UX.MOMC.UnitLabel,UX.MOMC.Boundary">UX*</option>
+		</select>
 		<ul style="display:none;">
 			<li>prehledka_kat_prac</li>
 			<li><strong>dalsi_p_mapy</strong></li>

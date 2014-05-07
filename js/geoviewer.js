@@ -3,17 +3,20 @@ function changeSrc( newSrc ) {
 }
 
 function displayMap() {
-	x1 = document.forms.frm1.x1.value;
-	x2 = document.forms.frm1.x2.value;
-	y1 = document.forms.frm1.y1.value;
-	y2 = document.forms.frm1.y2.value;
-	layers = document.forms.frm1.layers.value;
-	width = y1-y2
-	height = x1-x2
-	imgWidth = parseInt(700*width/height)
+	var wmsUrl = document.forms.frm1.wms.value;
+	var x1 = document.forms.frm1.x1.value;
+	var x2 = document.forms.frm1.x2.value;
+	var y1 = document.forms.frm1.y1.value;
+	var y2 = document.forms.frm1.y2.value;
+	var layers = document.forms.frm1.layers.value;
+	var width = y1-y2
+	var height = x1-x2
+	var imgWidth = parseInt(700*width/height)
 	//alert("imgWidth:"+imgWidth)
 	//src = "http://wms.cuzk.cz/wms.asp?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS="+layers+"&FORMAT=image/png&SRS=EPSG:102067&STYLES=&BBOX=" +y1+ "," + x1 + "," + y2 + "," + x2 + "&WIDTH="+imgWidth+"&HEIGHT=700"
-	src = "http://wms.cuzk.cz/wms.asp?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS="+layers+"&FORMAT=image/png&SRS=EPSG:102067&STYLES=&BBOX=" +y1+ "," + x1 + "," + y2 + "," + x2 + "&WIDTH=1000&HEIGHT=700"
+	//src = "http://wms.cuzk.cz/wms.asp?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS="+layers+"&FORMAT=image/png&SRS=EPSG:102067&STYLES=&BBOX=" +y1+ "," + x1 + "," + y2 + "," + x2 + "&WIDTH=1000&HEIGHT=700"
+	//src = "http://services.cuzk.cz/wms/local-ux-wms.asp?service=WMS&version=1.3.0&request=getMap&CRS=EPSG:102066&LAYERS="+layers+"&FORMAT=image/png&SRS=EPSG:102067&STYLES=&BBOX=" +y1+ "," + x1 + "," + y2 + "," + x2 + "&WIDTH=1000&HEIGHT=700"
+	var src = wmsUrl + "&LAYERS="+layers+"&FORMAT=image/png&SRS=EPSG:102067&STYLES=&BBOX=" +y1+ "," + x1 + "," + y2 + "," + x2 + "&WIDTH=1000&HEIGHT=700"
 	changeSrc( src );
 }
 
