@@ -3,7 +3,7 @@ function changeSrc( newSrc ) {
 }
 
 function displayMap() {
-	var wmsUrl = document.forms.frm1.wms.value;
+	var wmsUrl = document.forms.frm1.selWms.attributes.url.value;
 	var x1 = document.forms.frm1.x1.value;
 	var x2 = document.forms.frm1.x2.value;
 	var y1 = document.forms.frm1.y1.value;
