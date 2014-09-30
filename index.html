@@ -11,6 +11,7 @@
 	<script type="text/javascript" src="js/jquery.svg.js"></script>
 	<script type="text/javascript" src="js/svg_gv.js"></script>
 	<script type="text/javascript" src="js/geoviewer.js"></script>
+	<script type="text/javascript" src="js/presets.js" charset="UTF-8"></script>
 </head>
 <body>
 	<table>
@@ -33,14 +34,20 @@
 		<input type="button" value=">" onClick="panEast()" title="East">
 		<hr>
 		<div>WMS: <select id="wms" name="wms" size="1">
-				<option value="http://wms.cuzk.cz/wms.asp?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap">Old WMS</option>
-				<option value="http://services.cuzk.cz/wms/local-ux-wms.asp?service=WMS&version=1.3.0&request=getMap&CRS=EPSG:102066">New WMS</option>
+				<option value="http://wms.cuzk.cz/wms.asp?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap">Old WMS ÈÚZK</option>
+				<option value="http://services.cuzk.cz/wms/local-ux-wms.asp?service=WMS&version=1.3.0&request=getMap&CRS=EPSG:102066">Units eXtended</option>
+				<option value="http://geoportal.cuzk.cz/WMS_ZM50_PUB/wmservice.aspx?service=WMS&version=1.3.0&request=getMap&CRS=EPSG:5514">WMS_ZM50_PUB</option>
+				<option value="http://geoportal.cuzk.cz/WMS_ZM10_PUB/wmservice.aspx?service=WMS&version=1.3.0&request=getMap&CRS=EPSG:5514">WMS_ZM10_PUB</option>
+				<option value="http://geoportal.cuzk.cz/WMS_ORTOFOTO_PUB/wmservice.aspx?service=WMS&version=1.3.0&request=getMap&CRS=EPSG:5514">Ortofoto</option>
 			</select>
 		</div>
 		<strong>Layers:</strong>
 		<select name="layers" size="1">
 		        <option value="prehledka_kat_prac,dalsi_p_mapy,hranice_parcel,obrazy_parcel,parcelni_cisla,prehledka_kat_uz,prehledka_kraju-linie,RST_KMD,RST_KN">old</option>
 			<option value="UX.RegionSoudrznosti.UnitLabel,UX.RegionSoudrznosti.Boundary,UX.ZSJ.UnitLabel,UX.ZSJ.Boundary,UX.MOMC.UnitLabel,UX.MOMC.Boundary">UX*</option>
+			<option value="GR_ZM50">ZM50</option>
+			<option value="GR_ZM10">Základní mapa 1:10 000</option>
+			<option value="GR_ORTFOTORGB">Ortofoto</option>
 		</select>
 		<ul style="display:none;">
 			<li>prehledka_kat_prac</li>
@@ -56,33 +63,9 @@
 	</form>
 	<hr>
 	<h3>Presets</h3>
-	<ul>
-		<li><a name="x1"  href="javascript:preset(-526404,     -1152840,     -526216,      -1152710)">Kostel</a></li>
-		<li><a name="x2"  href="javascript:preset(-739622.340, -1044729.140, -739599.190,  -1044697.3)">Vinohrady</a></li>
-		<li><a name="x3"  href="javascript:preset(-904047,     -1252977,     -431207,       -911276)">ÈR</a></li>
-		<li><a name="x4"  href="javascript:preset(-751953.740, -1050784.170, -751938.000,  -1050779.690)">k.ú.(745278)</a></li>
-		<li><a name="x5"  href="javascript:preset(-731953.79,  -1060695.29,  -721340.27,   -1053000)">Øíèany u Prahy - celek</a></li>
-		<li><a name="x6"  href="javascript:preset(-729005.590, -1058077.680, -724288.470,  -1053889.500)">Øíèany u Prahy</a></li>
-		<li><a name="x7"  href="javascript:preset(-727280.85,  -1055672.75,  -725083.79,   -1053948.53)">Øíèany-Radosovice</a></li>
-		<li><a name="x8"  href="javascript:preset(-727080.85,  -1055072.75,  -726083.79,   -1054048.53)">Øíèany-Radosovice2</a></li>
-		<li><a name="x9"  href="javascript:preset(-726450.670, -1054907.860, -726300.670,  -1054807.860)">Parcela 95/8</a></li>
-		<li><a name="x10" href="javascript:preset(-726450.67,  -1054900,     -726300.67,   -1054810)">Parcela 95/8(closer)</a></li>
-		<li><a name="x11" href="javascript:preset(-739622.34,  -1044729.14,  -739599.19,   -1044697.3)">Vinohrady è.p.2460</a></li>
-		<li><a name="x12" href="javascript:preset(-741851.41,  -1050344.02,  -741836.57,   -1050332.61)">Lhotka è.p. 835</a></li>
-		<li><a name="x13" href="javascript:preset(-739569.560, -1044657.710, -739469.560,  -1044557.710)">Vinohrady è.p.2460</a></li>
-		<li><a name="x14" href="javascript:preset(-754683.48,  -1162990,     -753830.32,   -1162400)">Ceske Budejovice - Nemanice</a></li>
-		<li><a name="x15" href="javascript:preset(-754700,     -1162780,     -754300,      -1162500)">Ceske Budejovice - Nemanice 2</a></li>
-		<li><a name="x16" href="javascript:preset(-754710,     -1163017,     -753800,      -1162373)">Ceske Budejovice - Nemanice 3</a></li>
-		<li><a name="x17" href="javascript:preset(-755810,     -1163787,     -753700,      -1162303)">Ceske Budejovice</a></li>
-		<li><a name="x18" href="javascript:preset(-755203.54,  -1167822.49,  -754038.51,   -1166907.86)">Ceske Budejovice - MOMC</a></li>
-		<li><a name="x19" href="javascript:preset(-601600,     -1157480,     -601500,      -1157400)">Brno</a></li>
-		<li><a name="x20" href="javascript:preset(-670100.15,   -995853.79,  -666498.81,    -992517.23)">Benesov u Semil</a></li>
-		<li><a name="x21" href="javascript:preset(-667811.8,    -995262.9,   -667586.7,     -995054.4)">Benesov u Semil - stopka</a></li>
-		<li><a name="x22" href="javascript:preset(-741067.19,  -1044114.52,  -740842.77,   -1043958.01)">Praha-Zizkov - Skroupovo námìstí</a></li>
-		<li><a name="x23" href="javascript:preset(-741067.19,  -1044114.52,  -740842.77,   -1043958.01)">Praha-Zizkov - Skroupovo námìstí</a></li>
-		<li><a name="x24" href="javascript:preset(-661547.189, -1009659.638, -660161.915,  -1008658.56)">Zlámaniny (CUZKRUIAN-13069)</a></li>
-		<li><a name="x25" href="javascript:preset(-788882.82,  -1110575.429, -780571.179,  -1104568.966)">Mystice (VO)</a></li>
-	</ul>
+	<select id="selPresets">
+		<option>Please select...</option>
+	</select>
 			</td>
 			<td valign="top">
 			<img id="contents" src="http://docutils.sourceforge.net/docs/user/images/rsp-empty.png" width="1000" height="700" />
@@ -116,5 +99,29 @@
 			</td>
 		</tr>
 	</table>
+	<script>
+function populatePresets() {
+   var sel = $("#selPresets")
+   presets.forEach( function(it, num) { 
+	   var o = new Option(it.name, "preset_"+num); 
+	   o.setAttribute("y1",it.y1);
+	   o.setAttribute("x1",it.x1);
+	   o.setAttribute("y2",it.y2);
+	   o.setAttribute("x2",it.x2);
+   	   //o.select( function() {alert("selected!");} );
+	   sel.append(o); 
+   } )
+}
+
+$(document).ready(function(){
+   populatePresets();
+   var sel = $("#selPresets")
+   sel.change( function() {
+	   var selectedOption = sel.find("option[value='" +this.value+ "']")[0].attributes
+	   preset( selectedOption.y1.value, selectedOption.x1.value, selectedOption.y2.value, selectedOption.x2.value );
+	   //alert("selected '" + this.value + "'");
+   } );
+});
+	</script>
 </body>
 </html>
