@@ -143,25 +143,30 @@ function populateWMSs() {
    } );
 }
 
+function onChangePreset() {
+   var selectedOption = this.selectedOptions[0].attributes;
+   //var selectedOption = sel.find("option[value='" +this.value+ "']")[0].attributes;
+   preset( selectedOption.y1.value, selectedOption.x1.value, selectedOption.y2.value, selectedOption.x2.value );
+}
+
+function onChangeWms() {
+   var selectedOption = this.selectedOptions[0].attributes;
+   this.setAttribute("url",selectedOption.url.value);
+   //selWms[0].setAttribute("url",selectedOption.url.value);
+   $("#layers")[0].value = wms[this.selectedIndex].layers;
+   //$("#layers")[0].value = wms.filter( function(it) { return (it.name == this.value); } );
+}
 
 function geoViewerInit() {
    populatePresets();
    // register event for Presets
    var sel = $("#selPresets")
-   sel.change( function() {
-	   var selectedOption = sel.find("option[value='" +this.value+ "']")[0].attributes;
-	   preset( selectedOption.y1.value, selectedOption.x1.value, selectedOption.y2.value, selectedOption.x2.value );
-   } );
+   sel.change( onChangePreset );
 
    populateWMSs();
    // register event for WMSs
    var selWms = $("#selWms");
-   selWms.change( function() {
-	   var selectedOption = selWms.find("option[value='" +this.value+ "']")[0].attributes;
-	   selWms[0].setAttribute("url",selectedOption.url.value);
-	   $("#layers")[0].value = wms[this.selectedIndex].layers;
-	   //$("#layers")[0].value = wms.filter( function(it) { return (it.name == this.value); } );
-   } );
+   selWms.change( onChangeWms );
    var firstOption = selWms.find("option")[0].attributes;
    selWms[0].setAttribute("url",firstOption.url.value);
    $("#layers")[0].value = wms[0].layers;
