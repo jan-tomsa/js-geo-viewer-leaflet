@@ -9,15 +9,20 @@ function displayMap() {
 	var y1 = document.forms.frm1.y1.value;
 	var y2 = document.forms.frm1.y2.value;
 	var layers = document.forms.frm1.layers.value;
-	var width = y1-y2
-	var height = x1-x2
-	var imgWidth = parseInt(700*width/height)
-	//alert("imgWidth:"+imgWidth)
-	//src = "http://wms.cuzk.cz/wms.asp?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS="+layers+"&FORMAT=image/png&SRS=EPSG:102067&STYLES=&BBOX=" +y1+ "," + x1 + "," + y2 + "," + x2 + "&WIDTH="+imgWidth+"&HEIGHT=700"
-	//src = "http://wms.cuzk.cz/wms.asp?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS="+layers+"&FORMAT=image/png&SRS=EPSG:102067&STYLES=&BBOX=" +y1+ "," + x1 + "," + y2 + "," + x2 + "&WIDTH=1000&HEIGHT=700"
-	//src = "http://services.cuzk.cz/wms/local-ux-wms.asp?service=WMS&version=1.3.0&request=getMap&CRS=EPSG:102066&LAYERS="+layers+"&FORMAT=image/png&SRS=EPSG:102067&STYLES=&BBOX=" +y1+ "," + x1 + "," + y2 + "," + x2 + "&WIDTH=1000&HEIGHT=700"
-	var src = wmsUrl + "&LAYERS="+layers+"&FORMAT=image/png&SRS=EPSG:102067&STYLES=&BBOX=" +y1+ "," + x1 + "," + y2 + "," + x2 + "&WIDTH=1000&HEIGHT=700"
+	var width = y1-y2;
+	var height = x1-x2;
+	var imgWidth = parseInt(700*width/height);
+	var src = wmsUrl + "&LAYERS="+layers+"&FORMAT=image/png&SRS=EPSG:102067&STYLES=&BBOX=" +y1+ "," + x1 + "," + y2 + "," + x2 + "&WIDTH=1000&HEIGHT=700";
 	changeSrc( src );
+}
+
+function updateDisplay() {
+	autoDisplay = document.getElementById("autoDisplay").checked;
+	if (autoDisplay) {
+		clearLines();
+		displayMap();
+		processScript();
+	}
 }
 
 function preset(y1,x1,y2,x2) {
@@ -25,12 +30,7 @@ function preset(y1,x1,y2,x2) {
 	document.forms.frm1.x2.value = x2;
 	document.forms.frm1.y1.value = y1;
 	document.forms.frm1.y2.value = y2;
-	autoDisplay = document.getElementById("autoDisplay").checked;
-	if (autoDisplay) {
-		clearLines();
-		displayMap();
-		processScript();
-	}
+	updateDisplay();
 }
 
 function zoomIn() {
@@ -145,16 +145,16 @@ function populateWMSs() {
 
 function onChangePreset() {
    var selectedOption = this.selectedOptions[0].attributes;
-   //var selectedOption = sel.find("option[value='" +this.value+ "']")[0].attributes;
    preset( selectedOption.y1.value, selectedOption.x1.value, selectedOption.y2.value, selectedOption.x2.value );
 }
 
 function onChangeWms() {
    var selectedOption = this.selectedOptions[0].attributes;
    this.setAttribute("url",selectedOption.url.value);
-   //selWms[0].setAttribute("url",selectedOption.url.value);
    $("#layers")[0].value = wms[this.selectedIndex].layers;
-   //$("#layers")[0].value = wms.filter( function(it) { return (it.name == this.value); } );
+   if ($("#selPresets")[0].selectedIndex > 0) {
+      updateDisplay();
+   }
 }
 
 function geoViewerInit() {

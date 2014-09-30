@@ -33,7 +33,7 @@ function transformHoriz( x ) {
 	if (Math.abs(x) < 430000) {
 		return x;  // no transformation
 	} else {
-		rawsx = ((Math.abs(x)-Math.abs(gxr))/dx*1000)
+		rawsx = ((Math.abs(x)-Math.abs(gxr))/dx*1000);
 		return 1000-rawsx;
 	}
 }
@@ -188,22 +188,25 @@ function processCommandLine(currentLine, coordinates) {
 	}
 }
 
-var sdoPointPatt="MDSYS.SDO_GEOMETRY(2001,NULL,NULL,MDSYS.SDO_ELEM_INFO_ARRAY(1,1,1),MDSYS.SDO_ORDINATE_ARRAY(";
-var sdoLinePatt ="MDSYS.SDO_GEOMETRY(2002,NULL,NULL,MDSYS.SDO_ELEM_INFO_ARRAY(1,2,1),MDSYS.SDO_ORDINATE_ARRAY(";
-var sdoRectPatt ="MDSYS.SDO_GEOMETRY(2003,NULL,NULL,MDSYS.SDO_ELEM_INFO_ARRAY(1,1003,3),MDSYS.SDO_ORDINATE_ARRAY(";
+var SDO_POINT_PATT="MDSYS.SDO_GEOMETRY(2001,NULL,NULL,MDSYS.SDO_ELEM_INFO_ARRAY(1,1,1),MDSYS.SDO_ORDINATE_ARRAY(";
+var SDO_LINE_PATT ="MDSYS.SDO_GEOMETRY(2002,NULL,NULL,MDSYS.SDO_ELEM_INFO_ARRAY(1,2,1),MDSYS.SDO_ORDINATE_ARRAY(";
+var SDO_RECT_PATT ="MDSYS.SDO_GEOMETRY(2003,NULL,NULL,MDSYS.SDO_ELEM_INFO_ARRAY(1,1003,3),MDSYS.SDO_ORDINATE_ARRAY(";
 
 function processScriptLine(currentLine, coordinates) {
 	if (currentLine != "") {
 		geomType = "line";  // default
-		if (currentLine.substr(0,92) == sdoPointPatt) {
+		if (currentLine.substr(0,92) == SDO_POINT_PATT) {
 			line = currentLine.substr(92);
 			geomType = "point"
-		} else if (currentLine.substr(0,92) == sdoLinePatt) {
+		} else if (currentLine.substr(0,92) == SDO_LINE_PATT) {
 			line = currentLine.substr(92);
 		} else if (/posList/.test(currentLine)) {
 			line = currentLine.match(/posList>.*</)[0].substr(8,currentLine.length)
-		} else if (currentLine.substr(0,95) == sdoRectPatt) {
+		} else if (currentLine.substr(0,95) == SDO_RECT_PATT) {
 			line = currentLine.substr(95);
+			geomType = "rect";
+		} else if (currentLine.substr(0,4) == "rect") {
+			line = currentLine.substr(6);
 			geomType = "rect";
 		} else {
 			line = currentLine;
@@ -251,10 +254,10 @@ function calculateMBR() {
 	var x1=coordinates[0].ox1;
 	var x2=coordinates[0].ox2;
 	for (coord in coordinates) {
-		xMax = Math.max(coordinates[coord].ox1,coordinates[coord].ox2)
-		xMin = Math.min(coordinates[coord].ox1,coordinates[coord].ox2)
-		yMax = Math.max(coordinates[coord].oy1,coordinates[coord].oy2)
-		yMin = Math.min(coordinates[coord].oy1,coordinates[coord].oy2)
+		xMax = Math.max(coordinates[coord].ox1,coordinates[coord].ox2);
+		xMin = Math.min(coordinates[coord].ox1,coordinates[coord].ox2);
+		yMax = Math.max(coordinates[coord].oy1,coordinates[coord].oy2);
+		yMin = Math.min(coordinates[coord].oy1,coordinates[coord].oy2);
 		if (x1 > xMax) x1=xMax;
 		if (x2 < xMin) x2=xMin;
 		if (y1 > yMax) y1=yMax;
