@@ -116,3 +116,53 @@ function panSouth() {
 	newY2 = oldY2;
 	preset(newY1, newX1, newY2, newX2);
 }
+
+///////////////////////////////////////////////////////////////////
+
+function populatePresets() {
+   var selPresets = $("#selPresets");
+   presets.forEach( function(it, num) { 
+	   var o = new Option(it.name, "preset_"+num); 
+	   o.setAttribute("y1",it.y1);
+	   o.setAttribute("x1",it.x1);
+	   o.setAttribute("y2",it.y2);
+	   o.setAttribute("x2",it.x2);
+	   selPresets.append(o); 
+   } )
+}
+
+function populateWMSs() {
+   var selWms = $("#selWms");
+   while (selWms.find("option").length>0) {
+      selWms.find("option").remove(0);
+   }
+   wms.forEach( function(it, num) {
+	   var o = new Option(it.name, "wms_"+num); 
+	   o.setAttribute("url",it.url);
+	   selWms.append(o); 
+   } );
+}
+
+
+function geoViewerInit() {
+   populatePresets();
+   // register event for Presets
+   var sel = $("#selPresets")
+   sel.change( function() {
+	   var selectedOption = sel.find("option[value='" +this.value+ "']")[0].attributes;
+	   preset( selectedOption.y1.value, selectedOption.x1.value, selectedOption.y2.value, selectedOption.x2.value );
+   } );
+
+   populateWMSs();
+   // register event for WMSs
+   var selWms = $("#selWms");
+   selWms.change( function() {
+	   var selectedOption = selWms.find("option[value='" +this.value+ "']")[0].attributes;
+	   selWms[0].setAttribute("url",selectedOption.url.value);
+	   $("#layers")[0].value = wms[this.selectedIndex].layers;
+	   //$("#layers")[0].value = wms.filter( function(it) { return (it.name == this.value); } );
+   } );
+   var firstOption = selWms.find("option")[0].attributes;
+   selWms[0].setAttribute("url",firstOption.url.value);
+   $("#layers")[0].value = wms[0].layers;
+}
