@@ -17,7 +17,7 @@ function displayMap() {
 }
 
 function updateDisplay() {
-	autoDisplay = document.getElementById("autoDisplay").checked;
+	var autoDisplay = document.getElementById("autoDisplay").checked;
 	if (autoDisplay) {
 		clearLines();
 		displayMap();
@@ -34,86 +34,86 @@ function preset(y1,x1,y2,x2) {
 }
 
 function zoomIn() {
-	oldX1 = 1 * document.forms.frm1.x1.value;
-	oldY1 = 1 * document.forms.frm1.y1.value;
-	oldX2 = 1 * document.forms.frm1.x2.value;
-	oldY2 = 1 * document.forms.frm1.y2.value;
-	height = oldX2 - oldX1;
-	width = oldY2 - oldY1;
-	newX1 = oldX1 + (height/4);
-	newY1 = oldY1 + (width/4);
-	newX2 = oldX2 - (height/4);
-	newY2 = oldY2 - (width/4);
+	var oldX1 = 1 * document.forms.frm1.x1.value;
+	var oldY1 = 1 * document.forms.frm1.y1.value;
+	var oldX2 = 1 * document.forms.frm1.x2.value;
+	var oldY2 = 1 * document.forms.frm1.y2.value;
+	var height = oldX2 - oldX1;
+	var width = oldY2 - oldY1;
+	var newX1 = oldX1 + (height/4);
+	var newY1 = oldY1 + (width/4);
+	var newX2 = oldX2 - (height/4);
+	var newY2 = oldY2 - (width/4);
 	preset(newY1, newX1, newY2, newX2);
 }
 
 function zoomOut() {
-	oldX1 = 1 * document.forms.frm1.x1.value;
-	oldY1 = 1 * document.forms.frm1.y1.value;
-	oldX2 = 1 * document.forms.frm1.x2.value;
-	oldY2 = 1 * document.forms.frm1.y2.value;
-	height = oldX2 - oldX1;
-	width = oldY2 - oldY1;
-	newX1 = oldX1 - (height/4);
-	newY1 = oldY1 - (width/4);
-	newX2 = oldX2 + (height/4);
-	newY2 = oldY2 + (width/4);
+	var oldX1 = 1 * document.forms.frm1.x1.value;
+	var oldY1 = 1 * document.forms.frm1.y1.value;
+	var oldX2 = 1 * document.forms.frm1.x2.value;
+	var oldY2 = 1 * document.forms.frm1.y2.value;
+	var height = oldX2 - oldX1;
+	var width = oldY2 - oldY1;
+	var newX1 = oldX1 - (height/4);
+	var newY1 = oldY1 - (width/4);
+	var newX2 = oldX2 + (height/4);
+	var newY2 = oldY2 + (width/4);
 	preset(newY1, newX1, newY2, newX2);
 }
 
 function panWest() {
-	oldX1 = 1 * document.forms.frm1.x1.value;
-	oldY1 = 1 * document.forms.frm1.y1.value;
-	oldX2 = 1 * document.forms.frm1.x2.value;
-	oldY2 = 1 * document.forms.frm1.y2.value;
-	height = oldX2 - oldX1;
-	width = oldY2 - oldY1;
-	newX1 = oldX1;
-	newY1 = oldY1 - (width/3);
-	newX2 = oldX2;
-	newY2 = oldY2 - (width/3);
+	var oldX1 = 1 * document.forms.frm1.x1.value;
+	var oldY1 = 1 * document.forms.frm1.y1.value;
+	var oldX2 = 1 * document.forms.frm1.x2.value;
+	var oldY2 = 1 * document.forms.frm1.y2.value;
+	var height = oldX2 - oldX1;
+	var width = oldY2 - oldY1;
+	var newX1 = oldX1;
+	var newY1 = oldY1 - (width/3);
+	var newX2 = oldX2;
+	var newY2 = oldY2 - (width/3);
 	preset(newY1, newX1, newY2, newX2);
 }
 
 function panEast() {
-	oldX1 = 1 * document.forms.frm1.x1.value;
-	oldY1 = 1 * document.forms.frm1.y1.value;
-	oldX2 = 1 * document.forms.frm1.x2.value;
-	oldY2 = 1 * document.forms.frm1.y2.value;
-	height = oldX2 - oldX1;
-	width = oldY2 - oldY1;
-	newX1 = oldX1;
-	newY1 = oldY1 + (width/3);
-	newX2 = oldX2;
-	newY2 = oldY2 + (width/3);
+	var oldX1 = 1 * document.forms.frm1.x1.value;
+	var oldY1 = 1 * document.forms.frm1.y1.value;
+	var oldX2 = 1 * document.forms.frm1.x2.value;
+	var oldY2 = 1 * document.forms.frm1.y2.value;
+	var height = oldX2 - oldX1;
+	var width = oldY2 - oldY1;
+	var newX1 = oldX1;
+	var newY1 = oldY1 + (width/3);
+	var newX2 = oldX2;
+	var newY2 = oldY2 + (width/3);
 	preset(newY1, newX1, newY2, newX2);
 }
 
 function panNorth() {
-	oldX1 = 1 * document.forms.frm1.x1.value;
-	oldY1 = 1 * document.forms.frm1.y1.value;
-	oldX2 = 1 * document.forms.frm1.x2.value;
-	oldY2 = 1 * document.forms.frm1.y2.value;
-	height = oldX2 - oldX1;
-	width = oldY2 - oldY1;
-	newX1 = oldX1 + (height/3);
-	newY1 = oldY1;
-	newX2 = oldX2 + (height/3);
-	newY2 = oldY2;
+	var oldX1 = 1 * document.forms.frm1.x1.value;
+	var oldY1 = 1 * document.forms.frm1.y1.value;
+	var oldX2 = 1 * document.forms.frm1.x2.value;
+	var oldY2 = 1 * document.forms.frm1.y2.value;
+	var height = oldX2 - oldX1;
+	var width = oldY2 - oldY1;
+	var newX1 = oldX1 + (height/3);
+	var newY1 = oldY1;
+	var newX2 = oldX2 + (height/3);
+	var newY2 = oldY2;
 	preset(newY1, newX1, newY2, newX2);
 }
 
 function panSouth() {
-	oldX1 = 1 * document.forms.frm1.x1.value;
-	oldY1 = 1 * document.forms.frm1.y1.value;
-	oldX2 = 1 * document.forms.frm1.x2.value;
-	oldY2 = 1 * document.forms.frm1.y2.value;
-	height = oldX2 - oldX1;
-	width = oldY2 - oldY1;
-	newX1 = oldX1 - (height/3);
-	newY1 = oldY1;
-	newX2 = oldX2 - (height/3);
-	newY2 = oldY2;
+	var oldX1 = 1 * document.forms.frm1.x1.value;
+	var oldY1 = 1 * document.forms.frm1.y1.value;
+	var oldX2 = 1 * document.forms.frm1.x2.value;
+	var oldY2 = 1 * document.forms.frm1.y2.value;
+	var height = oldX2 - oldX1;
+	var width = oldY2 - oldY1;
+	var newX1 = oldX1 - (height/3);
+	var newY1 = oldY1;
+	var newX2 = oldX2 - (height/3);
+	var newY2 = oldY2;
 	preset(newY1, newX1, newY2, newX2);
 }
 
