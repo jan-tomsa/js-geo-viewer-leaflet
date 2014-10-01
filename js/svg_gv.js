@@ -29,20 +29,20 @@ function drawInitial(svg) {
 
 var colours = ['purple', 'red', 'orange', 'yellow', 'lime', 'green', 'blue', 'navy', 'black'];
 
-function transformHoriz( x ) {
+function transformHoriz( x, g ) {
 	if (Math.abs(x) < 430000) {
 		return x;  // no transformation
 	} else {
-		var rawsx = ((Math.abs(x)-Math.abs(gxr))/dx*1000);
+		var rawsx = ((Math.abs(x)-Math.abs(g.gxr))/g.dx*1000);
 		return 1000-rawsx;
 	}
 }
 
-function transformVert( y ) {
+function transformVert( y, g ) {
 	if (Math.abs(y) < 910000) {
 		return y;  // no transformation
 	} else {
-		var rawsy = (Math.abs(y)-Math.abs(gyt))/dy*700;
+		var rawsy = (Math.abs(y)-Math.abs(g.gyt))/g.dy*700;
 		return rawsy;
 	}
 }
@@ -81,7 +81,7 @@ function isNumber( ch ) {
 // currentColor is GLOBAL!
 
 function processPointLine(currentLine, coordinates) {
-	var coords = line.split(/[ ,\)]+/);
+	var coords = currentLine.split(/[ ,\)]+/);
 	var c1 = [ 1*coords[0], 1*coords[1] ];
 	var x1 = transformHoriz(extractHoriz(c1));
 	var y1 = transformVert(extractVert(c1));
@@ -109,8 +109,8 @@ function processRectangleLine(currentLine, coordinates) {
 	lastsy = sy2;
 }
 
-function processCoordinatesLine(currentLine, coordinates) {
-	var coords = line.split(/[ ,\)<]+/);
+function processCoordinatesLine(currentLine, coordinates, g) {
+	var coords = currentLine.split(/[ ,\)<]+/);
 	if (coords.length > 3) {
 		var c1 = [ 1*coords[0], 1*coords[1] ];
 		var c2 = [ 1*coords[2], 1*coords[3] ];
@@ -118,10 +118,10 @@ function processCoordinatesLine(currentLine, coordinates) {
 		var oy1 = extractVert(c1);
 		var ox2 = extractHoriz(c2);
 		var oy2 = extractVert(c2);
-		var sx1 = transformHoriz(ox1);
-		var sy1 = transformVert(oy1);
-		var sx2 = transformHoriz(ox2);
-		var sy2 = transformVert(oy2);
+		var sx1 = transformHoriz(ox1,g);
+		var sy1 = transformVert(oy1,g);
+		var sx2 = transformHoriz(ox2,g);
+		var sy2 = transformVert(oy2,g);
 		coordinates.push({x1: sx1, y1: sy1, x2: sx2, y2: sy2, 
                                   ox1: ox1, oy1: oy1, ox2: ox2, oy2: oy2, 
 					color: currentColor, strokeWidth: currentWidth, 
@@ -134,8 +134,8 @@ function processCoordinatesLine(currentLine, coordinates) {
 		var c2 = [ 1*coords[0], 1*coords[1] ];
 		var ox2 = extractHoriz(c2);
 		var oy2 = extractVert(c2);
-		var sx2 = transformHoriz(ox2);
-		var sy2 = transformVert(oy2);
+		var sx2 = transformHoriz(ox2,g);
+		var sy2 = transformVert(oy2,g);
 		try {
 			coordinates.push({x1: lastsx, y1: lastsy, x2: sx2, y2: sy2, 
                                   	  ox1: ox1, oy1: oy1, ox2: ox2, oy2: oy2, 
@@ -153,8 +153,8 @@ function processCoordinatesLine(currentLine, coordinates) {
 				var c2 = [ 1*coords[coord], 1*coords[1*coord+1] ];
 				var ox2 = extractHoriz(c2);
 				var oy2 = extractVert(c2);
-				var sx2 = transformHoriz(ox2);
-				var sy2 = transformVert(oy2);
+				var sx2 = transformHoriz(ox2,g);
+				var sy2 = transformVert(oy2,g);
 				coordinates.push({x1: lastsx, y1: lastsy, x2: sx2, y2: sy2, 
 							color: currentColor, strokeWidth: currentWidth, 
 							type: 'line'});
@@ -194,7 +194,7 @@ var SDO_POINT_PATT="MDSYS.SDO_GEOMETRY(2001,NULL,NULL,MDSYS.SDO_ELEM_INFO_ARRAY(
 var SDO_LINE_PATT ="MDSYS.SDO_GEOMETRY(2002,NULL,NULL,MDSYS.SDO_ELEM_INFO_ARRAY(1,2,1),MDSYS.SDO_ORDINATE_ARRAY(";
 var SDO_RECT_PATT ="MDSYS.SDO_GEOMETRY(2003,NULL,NULL,MDSYS.SDO_ELEM_INFO_ARRAY(1,1003,3),MDSYS.SDO_ORDINATE_ARRAY(";
 
-function processScriptLine(currentLine, coordinates) {
+function processScriptLine(currentLine, coordinates, g) {
 	var line = "";
 	if (currentLine != "") {
 		geomType = "line";  // default
@@ -217,11 +217,11 @@ function processScriptLine(currentLine, coordinates) {
 		var firstChar = line.charAt(0);
 		if (isNumber(firstChar)) {
 			if (geomType == "line") {
-				processCoordinatesLine(line, coordinates);
+				processCoordinatesLine(line, coordinates, g);
 			} else if (geomType == "point") {
-				processPointLine(line, coordinates);
+				processPointLine(line, coordinates, g);
 			} else {
-				processRectangleLine(line, coordinates);
+				processRectangleLine(line, coordinates, g);
 			}
 		} else {
 			processCommandLine(line, coordinates);
@@ -245,7 +245,7 @@ function processScriptToCoordinates() {
 	currentWidth = 1
 	for (line in scriptLines) {
 		currentLine = scriptLines[line].trim();
-		processScriptLine(currentLine,coordinates);
+		processScriptLine(currentLine,coordinates,{gxr:gxr, gyt:gyt, dx:dx, dy:dy});
 	}
 	return coordinates;
 }
