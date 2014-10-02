@@ -124,6 +124,34 @@ function panSouth() {
   preset(newY1, newX1, newY2, newX2);
 }
 
+function calculateMBR() {
+  'use strict';
+  var coordinates = processScriptToCoordinates(),
+      y1=coordinates[0].oy1,
+      y2=coordinates[0].oy2,
+      x1=coordinates[0].ox1,
+      x2=coordinates[0].ox2,
+      xMax, xMin, yMax, yMin,
+      coord;
+  for (coord in coordinates) {
+    xMax = Math.max(coordinates[coord].ox1,coordinates[coord].ox2);
+    xMin = Math.min(coordinates[coord].ox1,coordinates[coord].ox2);
+    yMax = Math.max(coordinates[coord].oy1,coordinates[coord].oy2);
+    yMin = Math.min(coordinates[coord].oy1,coordinates[coord].oy2);
+    if (x1 > xMax) { x1=xMax; }
+    if (x2 < xMin) { x2=xMin; }
+    if (y1 > yMax) { y1=yMax; }
+    if (y2 < yMin) { y2=yMin; }
+  }
+  $("#y1")[0].value=-x2;
+  $("#y2")[0].value=-x1;
+  $("#x1")[0].value=-y2;
+  $("#x2")[0].value=-y1;
+  clearLines();
+  displayMap();
+  processScript();
+}
+
 ///////////////////////////////////////////////////////////////////
 
 /*global $ */
@@ -185,3 +213,17 @@ function geoViewerInit() {
   selWms.attr("url",$("#selWms option:first").attr("url"));
   $("#layers")[0].value = wms[0].layers;
 }
+
+//////////////////////////////////////////////////////////////////////////////////////
+$(function() {
+  'use strict';
+  $('#svgbasics').svg({onLoad: drawInitial});
+  $('#drawLines').click(processScript);
+  $('#mbr').click(calculateMBR);
+  $('#clear').click(clearLines);
+  $('#export').click(function() {
+    var xml = $('#svgbasics').svg('get').toSVG();
+    $('#svgexport').html(xml.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'));
+  });
+  $("#svgbasics").offset($("#contents").offset());
+});
