@@ -1,173 +1,186 @@
-function changeSrc( newSrc ) {
-	document.getElementById("contents").src=newSrc;
+/*global document */
+function changeSrc(newSrc) {
+  'use strict';
+  document.getElementById("contents").src=newSrc;
 }
 
 function displayMap() {
-	var wmsUrl = document.forms.frm1.selWms.attributes.url.value;
-	var x1 = document.forms.frm1.x1.value;
-	var x2 = document.forms.frm1.x2.value;
-	var y1 = document.forms.frm1.y1.value;
-	var y2 = document.forms.frm1.y2.value;
-	var layers = document.forms.frm1.layers.value;
-	var width = y1-y2;
-	var height = x1-x2;
-	var imgWidth = parseInt(700*width/height);
-	var src = wmsUrl + "&LAYERS="+layers+"&FORMAT=image/png&SRS=EPSG:102067&STYLES=&BBOX=" +y1+ "," + x1 + "," + y2 + "," + x2 + "&WIDTH=1000&HEIGHT=700";
-	changeSrc( src );
+  'use strict';
+  var wmsUrl = document.forms.frm1.selWms.attributes.url.value,
+      x1 = document.forms.frm1.x1.value,
+      x2 = document.forms.frm1.x2.value,
+      y1 = document.forms.frm1.y1.value,
+      y2 = document.forms.frm1.y2.value,
+      layers = document.forms.frm1.layers.value,
+      src = wmsUrl + "&LAYERS="+layers+"&FORMAT=image/png&SRS=EPSG:102067&STYLES=&BBOX=" +y1+ "," + x1 + "," + y2 + "," + x2 + "&WIDTH=1000&HEIGHT=700";
+  changeSrc( src );
 }
 
+/*global clearLines */
+/*global processScript */
 function updateDisplay() {
-	var autoDisplay = document.getElementById("autoDisplay").checked;
-	if (autoDisplay) {
-		clearLines();
-		displayMap();
-		processScript();
-	}
+  'use strict';
+  var autoDisplay = document.getElementById("autoDisplay").checked;
+  if (autoDisplay) {
+    clearLines();
+    displayMap();
+    processScript();
+  }
 }
 
 function preset(y1,x1,y2,x2) {
-	document.forms.frm1.x1.value = x1;
-	document.forms.frm1.x2.value = x2;
-	document.forms.frm1.y1.value = y1;
-	document.forms.frm1.y2.value = y2;
-	updateDisplay();
+  'use strict';
+  document.forms.frm1.x1.value = x1;
+  document.forms.frm1.x2.value = x2;
+  document.forms.frm1.y1.value = y1;
+  document.forms.frm1.y2.value = y2;
+  updateDisplay();
 }
 
 function zoomIn() {
-	var oldX1 = 1 * document.forms.frm1.x1.value;
-	var oldY1 = 1 * document.forms.frm1.y1.value;
-	var oldX2 = 1 * document.forms.frm1.x2.value;
-	var oldY2 = 1 * document.forms.frm1.y2.value;
-	var height = oldX2 - oldX1;
-	var width = oldY2 - oldY1;
-	var newX1 = oldX1 + (height/4);
-	var newY1 = oldY1 + (width/4);
-	var newX2 = oldX2 - (height/4);
-	var newY2 = oldY2 - (width/4);
-	preset(newY1, newX1, newY2, newX2);
+  'use strict';
+  var oldX1 = document.forms.frm1.x1.value,
+      oldY1 = document.forms.frm1.y1.value,
+      oldX2 = document.forms.frm1.x2.value,
+      oldY2 = document.forms.frm1.y2.value,
+      height = oldX2 - oldX1,
+      width = oldY2 - oldY1,
+      newX1 = oldX1 + (height/4),
+      newY1 = oldY1 + (width/4),
+      newX2 = oldX2 - (height/4),
+      newY2 = oldY2 - (width/4);
+  preset(newY1, newX1, newY2, newX2);
 }
 
 function zoomOut() {
-	var oldX1 = 1 * document.forms.frm1.x1.value;
-	var oldY1 = 1 * document.forms.frm1.y1.value;
-	var oldX2 = 1 * document.forms.frm1.x2.value;
-	var oldY2 = 1 * document.forms.frm1.y2.value;
-	var height = oldX2 - oldX1;
-	var width = oldY2 - oldY1;
-	var newX1 = oldX1 - (height/4);
-	var newY1 = oldY1 - (width/4);
-	var newX2 = oldX2 + (height/4);
-	var newY2 = oldY2 + (width/4);
-	preset(newY1, newX1, newY2, newX2);
+  'use strict';
+  var oldX1 = document.forms.frm1.x1.value,
+      oldY1 = document.forms.frm1.y1.value,
+      oldX2 = document.forms.frm1.x2.value,
+      oldY2 = document.forms.frm1.y2.value,
+      height = oldX2 - oldX1,
+      width = oldY2 - oldY1,
+      newX1 = oldX1 - (height/4),
+      newY1 = oldY1 - (width/4),
+      newX2 = oldX2 + (height/4),
+      newY2 = oldY2 + (width/4);
+  preset(newY1, newX1, newY2, newX2);
 }
 
 function panWest() {
-	var oldX1 = 1 * document.forms.frm1.x1.value;
-	var oldY1 = 1 * document.forms.frm1.y1.value;
-	var oldX2 = 1 * document.forms.frm1.x2.value;
-	var oldY2 = 1 * document.forms.frm1.y2.value;
-	var height = oldX2 - oldX1;
-	var width = oldY2 - oldY1;
-	var newX1 = oldX1;
-	var newY1 = oldY1 - (width/3);
-	var newX2 = oldX2;
-	var newY2 = oldY2 - (width/3);
-	preset(newY1, newX1, newY2, newX2);
+  'use strict';
+  var oldX1 = document.forms.frm1.x1.value,
+      oldY1 = document.forms.frm1.y1.value,
+      oldX2 = document.forms.frm1.x2.value,
+      oldY2 = document.forms.frm1.y2.value,
+      width = oldY2 - oldY1,
+      newX1 = oldX1,
+      newY1 = oldY1 - (width/3),
+      newX2 = oldX2,
+      newY2 = oldY2 - (width/3);
+  preset(newY1, newX1, newY2, newX2);
 }
 
 function panEast() {
-	var oldX1 = 1 * document.forms.frm1.x1.value;
-	var oldY1 = 1 * document.forms.frm1.y1.value;
-	var oldX2 = 1 * document.forms.frm1.x2.value;
-	var oldY2 = 1 * document.forms.frm1.y2.value;
-	var height = oldX2 - oldX1;
-	var width = oldY2 - oldY1;
-	var newX1 = oldX1;
-	var newY1 = oldY1 + (width/3);
-	var newX2 = oldX2;
-	var newY2 = oldY2 + (width/3);
-	preset(newY1, newX1, newY2, newX2);
+  'use strict';
+  var oldX1 = document.forms.frm1.x1.value,
+      oldY1 = document.forms.frm1.y1.value,
+      oldX2 = document.forms.frm1.x2.value,
+      oldY2 = document.forms.frm1.y2.value,
+      width = oldY2 - oldY1,
+      newX1 = oldX1,
+      newY1 = oldY1 + (width/3),
+      newX2 = oldX2,
+      newY2 = oldY2 + (width/3);
+  preset(newY1, newX1, newY2, newX2);
 }
 
 function panNorth() {
-	var oldX1 = 1 * document.forms.frm1.x1.value;
-	var oldY1 = 1 * document.forms.frm1.y1.value;
-	var oldX2 = 1 * document.forms.frm1.x2.value;
-	var oldY2 = 1 * document.forms.frm1.y2.value;
-	var height = oldX2 - oldX1;
-	var width = oldY2 - oldY1;
-	var newX1 = oldX1 + (height/3);
-	var newY1 = oldY1;
-	var newX2 = oldX2 + (height/3);
-	var newY2 = oldY2;
-	preset(newY1, newX1, newY2, newX2);
+  'use strict';
+  var oldX1 = document.forms.frm1.x1.value,
+      oldY1 = document.forms.frm1.y1.value,
+      oldX2 = document.forms.frm1.x2.value,
+      oldY2 = document.forms.frm1.y2.value,
+      height = oldX2 - oldX1,
+      newX1 = oldX1 + (height/3),
+      newY1 = oldY1,
+      newX2 = oldX2 + (height/3),
+      newY2 = oldY2;
+  preset(newY1, newX1, newY2, newX2);
 }
 
 function panSouth() {
-	var oldX1 = 1 * document.forms.frm1.x1.value;
-	var oldY1 = 1 * document.forms.frm1.y1.value;
-	var oldX2 = 1 * document.forms.frm1.x2.value;
-	var oldY2 = 1 * document.forms.frm1.y2.value;
-	var height = oldX2 - oldX1;
-	var width = oldY2 - oldY1;
-	var newX1 = oldX1 - (height/3);
-	var newY1 = oldY1;
-	var newX2 = oldX2 - (height/3);
-	var newY2 = oldY2;
-	preset(newY1, newX1, newY2, newX2);
+  'use strict';
+  var oldX1 = document.forms.frm1.x1.value,
+      oldY1 = document.forms.frm1.y1.value,
+      oldX2 = document.forms.frm1.x2.value,
+      oldY2 = document.forms.frm1.y2.value,
+      height = oldX2 - oldX1,
+      newX1 = oldX1 - (height/3),
+      newY1 = oldY1,
+      newX2 = oldX2 - (height/3),
+      newY2 = oldY2;
+  preset(newY1, newX1, newY2, newX2);
 }
 
 ///////////////////////////////////////////////////////////////////
 
+/*global $ */
+/*global presets */
 function populatePresets() {
+   'use strict';
    var selPresets = $("#selPresets");
    presets.forEach( function(it, num) { 
-	   var o = new Option(it.name, "preset_"+num); 
-	   o.setAttribute("y1",it.y1);
-	   o.setAttribute("x1",it.x1);
-	   o.setAttribute("y2",it.y2);
-	   o.setAttribute("x2",it.x2);
-	   selPresets.append(o); 
-   } )
+     var o = new Option(it.name, "preset_"+num); 
+     o.setAttribute("y1",it.y1);
+     o.setAttribute("x1",it.x1);
+     o.setAttribute("y2",it.y2);
+     o.setAttribute("x2",it.x2);
+     selPresets.append(o); 
+   } );
 }
 
+/*global wms */
 function populateWMSs() {
+  'use strict';
    var selWms = $("#selWms");
    while (selWms.find("option").length>0) {
       selWms.find("option").remove(0);
    }
    wms.forEach( function(it, num) {
-	   var o = new Option(it.name, "wms_"+num); 
-	   o.setAttribute("url",it.url);
-	   selWms.append(o); 
+     var o = new Option(it.name, "wms_"+num); 
+     o.setAttribute("url",it.url);
+     selWms.append(o); 
    } );
 }
 
 function onChangePreset() {
-   var selectedOption = this.selectedOptions[0].attributes;
-   preset( selectedOption.y1.value, selectedOption.x1.value, selectedOption.y2.value, selectedOption.x2.value );
+  'use strict';
+  var selectedOption = this.selectedOptions[0].attributes;
+  preset( selectedOption.y1.value, selectedOption.x1.value, selectedOption.y2.value, selectedOption.x2.value );
 }
 
 function onChangeWms() {
-   var selectedOption = this.selectedOptions[0].attributes;
-   this.setAttribute("url",selectedOption.url.value);
-   $("#layers")[0].value = wms[this.selectedIndex].layers;
-   if ($("#selPresets")[0].selectedIndex > 0) {
-      updateDisplay();
-   }
+  'use strict';
+  var selectedOption = this.selectedOptions[0].attributes;
+  this.setAttribute("url",selectedOption.url.value);
+  $("#layers")[0].value = wms[this.selectedIndex].layers;
+  if ($("#selPresets")[0].selectedIndex > 0) {
+    updateDisplay();
+  }
 }
 
 function geoViewerInit() {
-   populatePresets();
-   // register event for Presets
-   var sel = $("#selPresets")
-   sel.change( onChangePreset );
+  'use strict';
+  populatePresets();
+  var sel = $("#selPresets"),
+      selWms = $("#selWms");
+  // register event for Presets
+  sel.change( onChangePreset );
 
-   populateWMSs();
-   // register event for WMSs
-   var selWms = $("#selWms");
-   selWms.change( onChangeWms );
-   var firstOption = selWms.find("option")[0].attributes;
-   selWms[0].setAttribute("url",firstOption.url.value);
-   $("#layers")[0].value = wms[0].layers;
+  populateWMSs();
+  // register event for WMSs
+  selWms.change( onChangeWms );
+  selWms.attr("url",$("#selWms option:first").attr("url"));
+  $("#layers")[0].value = wms[0].layers;
 }
