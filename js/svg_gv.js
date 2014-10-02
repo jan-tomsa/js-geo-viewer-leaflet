@@ -88,7 +88,9 @@ function processPointLine(currentLine, coordinates) {
       c1 = [ parseFloat(coords[0]), parseFloat(coords[1]) ],
       x1 = transformHoriz(extractHoriz(c1)),
       y1 = transformVert(extractVert(c1));
-  coordinates.push({x1: x1, y1: y1, color: currentColor, strokeWidth: currentWidth, type: 'point'});
+  coordinates.push({x1: x1, y1: y1, 
+                    color: currentColor, strokeWidth: currentWidth, 
+                    type: 'point'});
   lastsx = x1;
   lastsy = y1;
 }
@@ -108,7 +110,9 @@ function processRectangleLine(currentLine, coordinates) {
       y2 = Math.max(sy1,sy2),
       swidth=x2-x1,
       sheight=y2-y1;
-  coordinates.push({x1: x1, y1: y1, width: swidth, height: sheight, color: currentColor, strokeWidth: currentWidth, type: 'rect'});
+  coordinates.push({x1: x1, y1: y1, width: swidth, height: sheight, 
+                    color: currentColor, strokeWidth: currentWidth, 
+                    type: 'rect'});
   lastsx = sx2;
   lastsy = sy2;
 }
@@ -129,9 +133,9 @@ function processCoordinatesLine(currentLine, coordinates, g) {
     sx2 = transformHoriz(ox2,g);
     sy2 = transformVert(oy2,g);
     coordinates.push({x1: sx1, y1: sy1, x2: sx2, y2: sy2, 
-                                  ox1: ox1, oy1: oy1, ox2: ox2, oy2: oy2, 
-          color: currentColor, strokeWidth: currentWidth, 
-          type: 'line'});
+                      ox1: ox1, oy1: oy1, ox2: ox2, oy2: oy2, 
+                      color: currentColor, strokeWidth: currentWidth, 
+                      type: 'line'});
     lastox = ox2;
     lastoy = oy2;
     lastsx = sx2;
@@ -243,6 +247,37 @@ function processScriptLine(currentLine, coordinates, g) {
   }
 }
 
+function processScriptAsXML( xmlstr ) {
+  'use strict';
+  var coordinates = [],
+      parser, xmlDoc, 
+      geometrie, ordinatesNode, ordinates,
+      gi, glen,
+      oi, olen;
+  if (window.DOMParser) {
+    parser=new DOMParser();
+    xmlDoc=parser.parseFromString(xmlstr,"text/xml");
+  } else { // Internet Explorer
+    xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
+    xmlDoc.async=false;
+    xmlDoc.loadXML(xmlstr); 
+  }
+  geometrie=xmlDoc.getElementsByTagName('Geometrie');
+  console.log("geometrie: '"+geometrie.length+"'");
+  for (gi = 0, glen = geometrie.length; gi<glen; gi++) {
+    ordinatesNode=geometrie[gi].getElementsByTagName('SDO_ORDINATES');
+    ordinates=ordinatesNode[0].getElementsByTagName('NUMBER');
+    for (oi = 0, olen = ordinates.length; oi<olen; oi++) {
+      // TODO implement real parsing of SDOxml
+      coordinates.push({x1: 10+gi*2, y1: 10, x2: 10+gi*2, y2: 10+(oi+1)*2, 
+                      ox1: -1252977.0, oy1: -904047.0, ox2: -911276.0, oy2: -431207.0, 
+                      color: "blue", strokeWidth: 2, 
+                      type: 'line'});
+    }
+  }
+  return coordinates;
+}
+
 function processScriptToCoordinates() {
   'use strict';
   var myScript = $('#myScript')[0].value,
@@ -254,23 +289,29 @@ function processScriptToCoordinates() {
       gyb = parseFloat($("#x1")[0].value),
       gyt = parseFloat($("#x2")[0].value),
       dy = gyt - gyb,
-      currentLine, line;
+      currentLine, line,
+      firstChar;
   lastsx = 0;
   lastsy = 0;
   currentColor = "red";
   currentWidth = 1;
-  for (line in scriptLines) {
-    currentLine = scriptLines[line].trim();
-    processScriptLine(currentLine,coordinates,{gxr:gxr, gyt:gyt, dx:dx, dy:dy});
+  firstChar = scriptLines[0].charAt(0);
+  if (firstChar === "<") {
+    coordinates = processScriptAsXML(myScript);
+  } else {
+    for (line in scriptLines) {
+      currentLine = scriptLines[line].trim();
+      processScriptLine(currentLine,coordinates,{gxr:gxr, gyt:gyt, dx:dx, dy:dy});
+    }
   }
   return coordinates;
 }
 
 function processScript() {
   'use strict';
-  var start = new Date().getMilliseconds(),
-      coordinates = processScriptToCoordinates(),
-      end, time, messagesSpan;
+  var start, coordinates, end, time, messagesSpan;
+  start = new Date().getMilliseconds();
+  coordinates = processScriptToCoordinates(),
   drawSVGLines( coordinates );
   end = new Date().getMilliseconds();
   time = end - start;
