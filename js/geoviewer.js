@@ -30,19 +30,20 @@ function updateDisplay() {
 
 function preset(y1,x1,y2,x2) {
   'use strict';
-  document.forms.frm1.x1.value = x1;
-  document.forms.frm1.x2.value = x2;
-  document.forms.frm1.y1.value = y1;
-  document.forms.frm1.y2.value = y2;
+  var frm1 = document.forms.frm1;
+  frm1.x1.value = x1;
+  frm1.x2.value = x2;
+  frm1.y1.value = y1;
+  frm1.y2.value = y2;
   updateDisplay();
 }
 
 function zoomIn() {
   'use strict';
-  var oldX1 = document.forms.frm1.x1.value,
-      oldY1 = document.forms.frm1.y1.value,
-      oldX2 = document.forms.frm1.x2.value,
-      oldY2 = document.forms.frm1.y2.value,
+  var oldX1 = parseFloat(document.forms.frm1.x1.value),
+      oldY1 = parseFloat(document.forms.frm1.y1.value),
+      oldX2 = parseFloat(document.forms.frm1.x2.value),
+      oldY2 = parseFloat(document.forms.frm1.y2.value),
       height = oldX2 - oldX1,
       width = oldY2 - oldY1,
       newX1 = oldX1 + (height/4),
@@ -54,10 +55,10 @@ function zoomIn() {
 
 function zoomOut() {
   'use strict';
-  var oldX1 = document.forms.frm1.x1.value,
-      oldY1 = document.forms.frm1.y1.value,
-      oldX2 = document.forms.frm1.x2.value,
-      oldY2 = document.forms.frm1.y2.value,
+  var oldX1 = parseFloat(document.forms.frm1.x1.value),
+      oldY1 = parseFloat(document.forms.frm1.y1.value),
+      oldX2 = parseFloat(document.forms.frm1.x2.value),
+      oldY2 = parseFloat(document.forms.frm1.y2.value),
       height = oldX2 - oldX1,
       width = oldY2 - oldY1,
       newX1 = oldX1 - (height/4),
@@ -69,10 +70,10 @@ function zoomOut() {
 
 function panWest() {
   'use strict';
-  var oldX1 = document.forms.frm1.x1.value,
-      oldY1 = document.forms.frm1.y1.value,
-      oldX2 = document.forms.frm1.x2.value,
-      oldY2 = document.forms.frm1.y2.value,
+  var oldX1 = parseFloat(document.forms.frm1.x1.value),
+      oldY1 = parseFloat(document.forms.frm1.y1.value),
+      oldX2 = parseFloat(document.forms.frm1.x2.value),
+      oldY2 = parseFloat(document.forms.frm1.y2.value),
       width = oldY2 - oldY1,
       newX1 = oldX1,
       newY1 = oldY1 - (width/3),
@@ -83,10 +84,10 @@ function panWest() {
 
 function panEast() {
   'use strict';
-  var oldX1 = document.forms.frm1.x1.value,
-      oldY1 = document.forms.frm1.y1.value,
-      oldX2 = document.forms.frm1.x2.value,
-      oldY2 = document.forms.frm1.y2.value,
+  var oldX1 = parseFloat(document.forms.frm1.x1.value),
+      oldY1 = parseFloat(document.forms.frm1.y1.value),
+      oldX2 = parseFloat(document.forms.frm1.x2.value),
+      oldY2 = parseFloat(document.forms.frm1.y2.value),
       width = oldY2 - oldY1,
       newX1 = oldX1,
       newY1 = oldY1 + (width/3),
@@ -97,10 +98,10 @@ function panEast() {
 
 function panNorth() {
   'use strict';
-  var oldX1 = document.forms.frm1.x1.value,
-      oldY1 = document.forms.frm1.y1.value,
-      oldX2 = document.forms.frm1.x2.value,
-      oldY2 = document.forms.frm1.y2.value,
+  var oldX1 = parseFloat(document.forms.frm1.x1.value),
+      oldY1 = parseFloat(document.forms.frm1.y1.value),
+      oldX2 = parseFloat(document.forms.frm1.x2.value),
+      oldY2 = parseFloat(document.forms.frm1.y2.value),
       height = oldX2 - oldX1,
       newX1 = oldX1 + (height/3),
       newY1 = oldY1,
@@ -111,10 +112,10 @@ function panNorth() {
 
 function panSouth() {
   'use strict';
-  var oldX1 = document.forms.frm1.x1.value,
-      oldY1 = document.forms.frm1.y1.value,
-      oldX2 = document.forms.frm1.x2.value,
-      oldY2 = document.forms.frm1.y2.value,
+  var oldX1 = parseFloat(document.forms.frm1.x1.value),
+      oldY1 = parseFloat(document.forms.frm1.y1.value),
+      oldX2 = parseFloat(document.forms.frm1.x2.value),
+      oldY2 = parseFloat(document.forms.frm1.y2.value),
       height = oldX2 - oldX1,
       newX1 = oldX1 - (height/3),
       newY1 = oldY1,
