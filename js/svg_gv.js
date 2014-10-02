@@ -143,9 +143,9 @@ function processCoordinatesLine(currentLine, coordinates, g) {
     sy2 = transformVert(oy2,g);
     try {
       coordinates.push({x1: lastsx, y1: lastsy, x2: sx2, y2: sy2, 
-                                      ox1: ox1, oy1: oy1, ox2: ox2, oy2: oy2, 
-            color: currentColor, strokeWidth: currentWidth, 
-            type: 'line'});
+                       ox1: ox1, oy1: oy1, ox2: ox2, oy2: oy2, 
+                       color: currentColor, strokeWidth: currentWidth, 
+                       type: 'line'});
     } catch(err) {} // Pokémon
     lastox = ox2;
     lastoy = oy2;
@@ -161,8 +161,9 @@ function processCoordinatesLine(currentLine, coordinates, g) {
         sx2 = transformHoriz(ox2,g);
         sy2 = transformVert(oy2,g);
         coordinates.push({x1: lastsx, y1: lastsy, x2: sx2, y2: sy2, 
-              color: currentColor, strokeWidth: currentWidth, 
-              type: 'line'});
+                          ox1: lastox, oy1: lastoy, ox2: ox2, oy2: oy2, 
+                          color: currentColor, strokeWidth: currentWidth, 
+                          type: 'line'});
         lastox = ox2;
         lastoy = oy2;
         lastsx = sx2;
@@ -262,11 +263,12 @@ function processScriptToCoordinates() {
 
 function calculateMBR() {
   'use strict';
-  var coordinates = processScriptToCoordinates();
-  var y1=coordinates[0].oy1;
-  var y2=coordinates[0].oy2;
-  var x1=coordinates[0].ox1;
-  var x2=coordinates[0].ox2;
+  var coordinates = processScriptToCoordinates(),
+      y1=coordinates[0].oy1,
+      y2=coordinates[0].oy2,
+      x1=coordinates[0].ox1,
+      x2=coordinates[0].ox2,
+      xMax, xMin, yMax, yMin;
   for (var coord in coordinates) {
     xMax = Math.max(coordinates[coord].ox1,coordinates[coord].ox2);
     xMin = Math.min(coordinates[coord].ox1,coordinates[coord].ox2);
