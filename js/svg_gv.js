@@ -209,7 +209,7 @@ var SDO_POINT_PATT="MDSYS.SDO_GEOMETRY(2001,NULL,NULL,MDSYS.SDO_ELEM_INFO_ARRAY(
 var SDO_LINE_PATT ="MDSYS.SDO_GEOMETRY(2002,NULL,NULL,MDSYS.SDO_ELEM_INFO_ARRAY(1,2,1),MDSYS.SDO_ORDINATE_ARRAY(";
 var SDO_RECT_PATT ="MDSYS.SDO_GEOMETRY(2003,NULL,NULL,MDSYS.SDO_ELEM_INFO_ARRAY(1,1003,3),MDSYS.SDO_ORDINATE_ARRAY(";
 
-function processScriptLine(currentLine, coordinates, g) {
+function processScriptLine(currentLine, coordinates, gvp) {
   'use strict';
   var line = "",
       geomType="",
@@ -235,25 +235,26 @@ function processScriptLine(currentLine, coordinates, g) {
     firstChar = line.charAt(0);
     if (isNumber(firstChar)) {
       if (geomType === "line") {
-        processCoordinatesLine(line, coordinates, g);
+        processCoordinatesLine(line, coordinates, gvp);
       } else if (geomType === "point") {
-        processPointLine(line, coordinates, g);
+        processPointLine(line, coordinates, gvp);
       } else {
-        processRectangleLine(line, coordinates, g);
+        processRectangleLine(line, coordinates, gvp);
       }
     } else {
-      processCommandLine(line, coordinates, g);
+      processCommandLine(line, coordinates, gvp);
     }
   }
 }
 
-function processScriptAsXML( xmlstr ) {
+function processScriptAsXML( xmlstr, geoViewPort ) {
   'use strict';
   var coordinates = [],
       parser, xmlDoc, 
       geometrie, ordinatesNode, ordinates,
       gi, glen,
-      oi, olen;
+      oi, olen,
+      line, gType;
   if (window.DOMParser) {
     parser=new DOMParser();
     xmlDoc=parser.parseFromString(xmlstr,"text/xml");
@@ -263,16 +264,19 @@ function processScriptAsXML( xmlstr ) {
     xmlDoc.loadXML(xmlstr); 
   }
   geometrie=xmlDoc.getElementsByTagName('Geometrie');
-  console.log("geometrie: '"+geometrie.length+"'");
+  //console.log("geometrie: '"+geometrie.length+"'");
   for (gi = 0, glen = geometrie.length; gi<glen; gi++) {
+    gType = geometrie[gi].getElementsByTagName('SDO_GTYPE')[0].textContent;
     ordinatesNode=geometrie[gi].getElementsByTagName('SDO_ORDINATES');
     ordinates=ordinatesNode[0].getElementsByTagName('NUMBER');
-    for (oi = 0, olen = ordinates.length; oi<olen; oi++) {
-      // TODO implement real parsing of SDOxml
-      coordinates.push({x1: 10+gi*2, y1: 10, x2: 10+gi*2, y2: 10+(oi+1)*2, 
-                      ox1: -1252977.0, oy1: -904047.0, ox2: -911276.0, oy2: -431207.0, 
-                      color: "blue", strokeWidth: 2, 
-                      type: 'line'});
+    if (gType === "2001") { // point
+      console.log('point');
+    } else if (gType === "2003") {
+      line = "";
+      for (oi = 0, olen = ordinates.length; oi<olen; oi++) {
+        line += ordinates[oi].textContent + " ";
+      }
+      processCoordinatesLine(line, coordinates, geoViewPort);
     }
   }
   return coordinates;
@@ -290,18 +294,19 @@ function processScriptToCoordinates() {
       gyt = parseFloat($("#x2")[0].value),
       dy = gyt - gyb,
       currentLine, line,
-      firstChar;
+      firstChar, 
+      geoViewPort = {gxr:gxr, gyt:gyt, dx:dx, dy:dy};
   lastsx = 0;
   lastsy = 0;
   currentColor = "red";
   currentWidth = 1;
   firstChar = scriptLines[0].charAt(0);
   if (firstChar === "<") {
-    coordinates = processScriptAsXML(myScript);
+    coordinates = processScriptAsXML(myScript,geoViewPort);
   } else {
     for (line in scriptLines) {
       currentLine = scriptLines[line].trim();
-      processScriptLine(currentLine,coordinates,{gxr:gxr, gyt:gyt, dx:dx, dy:dy});
+      processScriptLine(currentLine,coordinates,geoViewPort);
     }
   }
   return coordinates;
