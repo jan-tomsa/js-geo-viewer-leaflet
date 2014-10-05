@@ -35,8 +35,8 @@ function transformHoriz( x, g ) {
   if (Math.abs(x) < 430000) {
     return x;  // no transformation
   }
-  var rawsx = ((Math.abs(x)-Math.abs(g.gxr))/g.dx*1000);
-  return 1000-rawsx;
+  var rawsx = ((Math.abs(x)-Math.abs(g.gxr))/g.dx*gvWindowWidth);
+  return gvWindowWidth-rawsx;
 }
 
 function transformVert( y, g ) {
@@ -44,7 +44,7 @@ function transformVert( y, g ) {
   if (Math.abs(y) < 910000) {
     return y;  // no transformation
   }
-  var rawsy = (Math.abs(y)-Math.abs(g.gyt))/g.dy*700;
+  var rawsy = (Math.abs(y)-Math.abs(g.gyt))/g.dy*svgElemHeight();
   return rawsy;
 }
 

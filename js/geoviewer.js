@@ -1,3 +1,5 @@
+var gvWindowWidth, gvWindowHeight;
+
 /*global document */
 function changeSrc(newSrc) {
   'use strict';
@@ -12,7 +14,7 @@ function displayMap() {
       y1 = document.forms.frm1.y1.value,
       y2 = document.forms.frm1.y2.value,
       layers = document.forms.frm1.layers.value,
-      src = wmsUrl + "&LAYERS="+layers+"&FORMAT=image/png&SRS=EPSG:102067&STYLES=&BBOX=" +y1+ "," + x1 + "," + y2 + "," + x2 + "&WIDTH=1000&HEIGHT=700";
+      src = wmsUrl + "&LAYERS="+layers+"&FORMAT=image/png&SRS=EPSG:102067&STYLES=&BBOX=" +y1+ "," + x1 + "," + y2 + "," + x2 + "&WIDTH="+gvWindowWidth+"&HEIGHT="+svgElemHeight();
   changeSrc( src );
 }
 
@@ -199,6 +201,28 @@ function onChangeWms() {
   }
 }
 
+function svgElemHeight() {
+  return gvWindowHeight - 27;
+}
+
+/*global gvWindowWidth*/
+/*global gvWindowHeight*/
+function geoViewerResize() {
+  'use strict';
+  var svgElem = $('#svgbasics'),
+      imgElem = $('#contents');
+  gvWindowWidth = window.innerWidth;
+  gvWindowHeight = window.innerHeight;
+  //console.log('resized - width:'+gvWindowWidth+', height:'+gvWindowHeight);
+  svgElem.width( gvWindowWidth );
+  svgElem.find('svg').width( gvWindowWidth );
+  svgElem.height( svgElemHeight() );
+  svgElem.find('svg').height( svgElemHeight() );
+  imgElem.width( gvWindowWidth );
+  imgElem.height( svgElemHeight() );
+  updateDisplay();
+}
+
 function geoViewerInit() {
   'use strict';
   populatePresets();
@@ -212,6 +236,9 @@ function geoViewerInit() {
   selWms.change( onChangeWms );
   selWms.attr("url",$("#selWms option:first").attr("url"));
   $("#layers")[0].value = wms[0].layers;
+
+  geoViewerResize();
+  $(window).resize(geoViewerResize);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
