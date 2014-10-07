@@ -296,6 +296,7 @@ function processScriptToCoordinates() {
       currentLine, line,
       firstChar, 
       geoViewPort = {gxr:gxr, gyt:gyt, dx:dx, dy:dy};
+  $('#ratio').val(dx / dy);
   lastsx = 0;
   lastsy = 0;
   currentColor = "red";

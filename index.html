@@ -25,12 +25,12 @@
       background-color: rgba(255,255,200,0.5)
    }
 </style>
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	<script type="text/javascript" src="js/jquery.svg.js"></script>
-	<script type="text/javascript" src="js/svg_gv.js"></script>
-	<script type="text/javascript" src="js/geoviewer.js"></script>
-	<script type="text/javascript" src="js/presets.js" charset="UTF-8"></script>
-	<script type="text/javascript" src="js/wms_layers.js" charset="UTF-8"></script>
+   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+   <script type="text/javascript" src="js/jquery.svg.js"></script>
+   <script type="text/javascript" src="js/svg_gv.js"></script>
+   <script type="text/javascript" src="js/geoviewer.js"></script>
+   <script type="text/javascript" src="js/presets.js" charset="UTF-8"></script>
+   <script type="text/javascript" src="js/wms_layers.js" charset="UTF-8"></script>
 </head>
 <body>
    <img id="contents" src="http://docutils.sourceforge.net/docs/user/images/rsp-empty.png" width="1000" height="700" />
@@ -40,37 +40,34 @@
       <tr>
          <td valign="top">
             <form name="frm1">
-		X2: <input type="text" id="x2" name="x2" value="-1152710">(top [^&gt;])<br/>
-		Y1: <input type="text" id="y1" name="y1" value="-526404">(left [&lt;])<br/>
-		Y2: <input type="text" id="y2" name="y2" value="-526216">(right [&gt;])<br/>
-		X1: <input type="text" id="x1" name="x1" value="-1152840">(bottom [v&lt;])<br/>
-		(0,0 je nìkde v Estonsku)
-		<input type="button" value="Display" onClick="displayMap()">
-		<input type="checkbox" id="autoDisplay" value="Auto" title="Display automatically" checked="checked">Auto<br/>
-		<input type="button" value="+" onClick="zoomIn()"  title="Zoom In">
-		<input type="button" value="-" onClick="zoomOut()" title="Zoom Out">
-		|
-		<input type="button" value="<" onClick="panWest()" title="West">
-		<input type="button" value="^" onClick="panNorth()" title="North">
-		<input type="button" value="v" onClick="panSouth()" title="South">
-		<input type="button" value=">" onClick="panEast()" title="East">
-		<hr>
-		<div>WMS: <select id="selWms" name="selWms" size="1">
-				<option value="http://wms.cuzk.cz/wms.asp?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap">Old WMS ÈÚZK</option>
-				<option value="http://services.cuzk.cz/wms/local-ux-wms.asp?service=WMS&version=1.3.0&request=getMap&CRS=EPSG:102066">Units eXtended</option>
-				<option value="http://geoportal.cuzk.cz/WMS_ZM50_PUB/wmservice.aspx?service=WMS&version=1.3.0&request=getMap&CRS=EPSG:5514">WMS_ZM50_PUB</option>
-				<option value="http://geoportal.cuzk.cz/WMS_ZM10_PUB/wmservice.aspx?service=WMS&version=1.3.0&request=getMap&CRS=EPSG:5514">WMS_ZM10_PUB</option>
-				<option value="http://geoportal.cuzk.cz/WMS_ORTOFOTO_PUB/wmservice.aspx?service=WMS&version=1.3.0&request=getMap&CRS=EPSG:5514">Ortofoto</option>
-			</select>
-		</div>
-		<strong>Layers:</strong>
-		<input id="layers" name="layers" size="20">
-	</form>
-	<hr>
-	<h3>Presets</h3>
-	<select id="selPresets">
-		<option>Please select...</option>
-	</select>
+               X2: <input type="text" id="x2" name="x2" value="-1152710">(top [^&gt;])<br/>
+               Y1: <input type="text" id="y1" name="y1" value="-526404">(left [&lt;])<br/>
+               Y2: <input type="text" id="y2" name="y2" value="-526216">(right [&gt;])<br/>
+               X1: <input type="text" id="x1" name="x1" value="-1152840">(bottom [v&lt;])<br/>
+               (0,0 je nìkde v Estonsku)
+               <input type="button" value="Display" onClick="displayMap()">
+               <input type="checkbox" id="autoDisplay" value="Auto" title="Display automatically" checked="checked">Auto<br/>
+               <input type="button" value="+" onClick="zoomIn()"  title="Zoom In">
+               <input type="button" value="-" onClick="zoomOut()" title="Zoom Out">
+               |
+               <input type="button" value="<" onClick="panWest()" title="West">
+               <input type="button" value="^" onClick="panNorth()" title="North">
+               <input type="button" value="v" onClick="panSouth()" title="South">
+               <input type="button" value=">" onClick="panEast()" title="East">
+               <hr>
+               <div>WMS: <select id="selWms" name="selWms" size="1"></select>
+               </div>
+               <strong>Layers:</strong>
+               <input id="layers" name="layers" size="20">
+           </form>
+           <hr>
+           <h3>Presets</h3>
+           <select id="selPresets">
+              <option>Please select...</option>
+           </select>
+           <hr>
+           Ratio:
+           <input type="text" id="ratio">
          </td>
       </tr>
    </table>
