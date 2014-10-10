@@ -1,4 +1,4 @@
-// copied from http://diskuse.jakpsatweb.cz/?action=vthread&forum=3&topic=145425
+// algorithm copied from http://diskuse.jakpsatweb.cz/?action=vthread&forum=3&topic=145425
 function transformSJtsk2Wgs84(x,y){
     /*Vypocet zemepisnych souradnic z rovinnych souradnic*/
     var M_PI  = 3.14159265358979323846, // pi
