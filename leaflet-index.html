@@ -14,14 +14,24 @@
 </body>
 <script>
 $(document).ready( function() {
-    var coordsRicany = [50.00723390959761,14.705631132669444],
+    var coordsRicany = [50.00723390959761,14.705631132669444],  // S-JTSK(723827.6, 1054593.46)
         coordsPrague = [50.0596696,14.4656239],
-        map = L.map('map').setView(coordsRicany, 13);
+        map = L.map('map').setView(coordsRicany, 13),
+        polygon;
     L.tileLayer('http://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery &copy; <a href="http://mapbox.com">Mapbox</a>',
-	maxZoom: 18,
-	id: 'examples.map-i875mjb7'
+        maxZoom: 18,
+        id: 'examples.map-i875mjb7'
     }).addTo(map);    
+    polygon = L.polygon([
+        [50.007233909597610, 14.705631132669444],
+        [49.979650694789456, 14.682984969163359],
+        [49.952752133593755, 14.636099991154847],  // 729576.02 1059935.62
+        [49.959561437599430, 14.615457741386560],  // 730942.71 1058987.18
+        [49.999754154901010, 14.611352024209940],  // 730636.48 1054517.81
+        [49.994441821160080, 14.640153080291622],  // 728669.1 1055379.25 
+        [50.012399945794860, 14.661278328936302]   // 726902.05 1053601.64 
+    ]).addTo(map);
 } )
 </script>
 </html>
