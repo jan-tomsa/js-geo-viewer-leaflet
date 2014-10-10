@@ -241,6 +241,21 @@ function geoViewerInit() {
   $(window).resize(geoViewerResize);
 }
 
+function switchToOpenStreetMap() {
+  $("#gvOsm").show();
+  $("#gvOsm").height(780);
+  $("#gvWms").hide();
+  $("#gvWmsControls").hide();
+  map.invalidateSize();
+}
+
+function switchToWms() {
+  $("#gvOsm").hide();
+  $("#gvOsm").height(0);
+  $("#gvWms").show();
+  $("#gvWmsControls").show();
+}
+
 //////////////////////////////////////////////////////////////////////////////////////
 $(function() {
   'use strict';
@@ -253,4 +268,7 @@ $(function() {
     $('#svgexport').html(xml.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'));
   });
   $("#svgbasics").offset($("#contents").offset());
+
+  $("#switchGvOsm").click(switchToOpenStreetMap);
+  $("#switchGvWms").click(switchToWms);
 });
