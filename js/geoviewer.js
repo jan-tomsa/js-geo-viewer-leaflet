@@ -145,10 +145,11 @@ function calculateMBR() {
     if (y1 > yMax) { y1=yMax; }
     if (y2 < yMin) { y2=yMin; }
   }
-  $("#y1")[0].value=-x2;
-  $("#y2")[0].value=-x1;
-  $("#x1")[0].value=-y2;
-  $("#x2")[0].value=-y1;
+  // TODO: add code for fixing aspect ratio
+  $("#y1").val(-x2);
+  $("#y2").val(-x1);
+  $("#x1").val(-y2);
+  $("#x2").val(-y1);
   clearLines();
   displayMap();
   processScript();
