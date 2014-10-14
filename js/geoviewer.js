@@ -146,10 +146,15 @@ function calculateMBR() {
     if (y2 < yMin) { y2=yMin; }
   }
   // TODO: add code for fixing aspect ratio
-  $("#y1").val(-x2);
-  $("#y2").val(-x1);
-  $("#x1").val(-y2);
-  $("#x2").val(-y1);
+  return {y1: -x2,  y2: -x1,  x1: -y2,  x2: -y1};
+}
+
+function mbr() {
+  var coords = calculateMBR();
+  $("#y1").val(coords.y1);
+  $("#y2").val(coords.y2);
+  $("#x1").val(coords.x1);
+  $("#x2").val(coords.x2);
   clearLines();
   displayMap();
   processScript();
@@ -262,7 +267,7 @@ $(function() {
   'use strict';
   $('#svgbasics').svg({onLoad: drawInitial});
   $('#drawLines').click(processScript);
-  $('#mbr').click(calculateMBR);
+  $('#mbr').click(mbr);
   $('#clear').click(clearLines);
   $('#export').click(function() {
     var xml = $('#svgbasics').svg('get').toSVG();

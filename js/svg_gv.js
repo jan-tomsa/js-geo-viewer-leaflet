@@ -282,16 +282,17 @@ function processScriptAsXML( xmlstr, geoViewPort ) {
   return coordinates;
 }
 
+//TODO: isolate from app's DOM
 function processScriptToCoordinates() {
   'use strict';
-  var myScript = $('#myScript')[0].value,
+  var myScript = $('#myScript').val(),
       scriptLines = myScript.split("\n"),
       coordinates = [],
-      gxl = parseFloat($("#y1")[0].value),
-      gxr = parseFloat($("#y2")[0].value),
+      gxl = parseFloat($("#y1").val()),
+      gxr = parseFloat($("#y2").val()),
       dx = gxr - gxl,
-      gyb = parseFloat($("#x1")[0].value),
-      gyt = parseFloat($("#x2")[0].value),
+      gyb = parseFloat($("#x1").val()),
+      gyt = parseFloat($("#x2").val()),
       dy = gyt - gyb,
       currentLine, line,
       firstChar, 
