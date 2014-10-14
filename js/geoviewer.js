@@ -134,7 +134,8 @@ function calculateMBR() {
       x1=coordinates[0].ox1,
       x2=coordinates[0].ox2,
       xMax, xMin, yMax, yMin,
-      coord;
+      coord, resultingRectangle, rectWidth, rectHeight, aspHoriz, aspVert, aspRatio, 
+      horizCenter, vertCenter;
   for (coord in coordinates) {
     xMax = Math.max(coordinates[coord].ox1,coordinates[coord].ox2);
     xMin = Math.min(coordinates[coord].ox1,coordinates[coord].ox2);
@@ -145,16 +146,33 @@ function calculateMBR() {
     if (y1 > yMax) { y1=yMax; }
     if (y2 < yMin) { y2=yMin; }
   }
-  // TODO: add code for fixing aspect ratio
-  return {y1: -x2,  y2: -x1,  x1: -y2,  x2: -y1};
+  resultingRectangle = {west: -x2,  east: -x1,  south: -y2,  north: -y1};
+  rectWidth = resultingRectangle.east - resultingRectangle.west;
+  rectHeight = resultingRectangle.north - resultingRectangle.south;
+  // fix aspect ratio
+  aspHoriz = gvWindowWidth / rectWidth;
+  aspVert = gvWindowHeight / rectHeight;
+  aspRatio = aspHoriz / aspVert;
+  if (aspRatio > 1.0) {
+    console.log("Shrinking horizontally.");
+    horizCenter = resultingRectangle.east - (rectWidth / 2);
+    resultingRectangle.west = horizCenter - ((rectWidth / 2) * aspRatio);
+    resultingRectangle.east = horizCenter + ((rectWidth / 2) * aspRatio);
+  } else {
+    console.log("Shrinking vertically.");
+    vertCenter = resultingRectangle.north - (rectHeight / 2);
+    resultingRectangle.south = vertCenter - ((rectHeight / 2) / aspRatio);
+    resultingRectangle.north = vertCenter + ((rectHeight / 2) / aspRatio);
+  }
+  return resultingRectangle;
 }
 
 function mbr() {
   var coords = calculateMBR();
-  $("#y1").val(coords.y1);
-  $("#y2").val(coords.y2);
-  $("#x1").val(coords.x1);
-  $("#x2").val(coords.x2);
+  $("#y1").val(coords.west);
+  $("#y2").val(coords.east);
+  $("#x1").val(coords.south);
+  $("#x2").val(coords.north);
   clearLines();
   displayMap();
   processScript();
