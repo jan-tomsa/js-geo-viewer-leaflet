@@ -46,27 +46,27 @@
    <table id="mainControls">
       <tr id="mapSwitch">
          <td>
-            <button id="switchGvWms">WMS</button>
-            <button id="switchGvOsm">OpenStreetMap</button>
+            <button id="switchGvWms" title="Switch to WMS (Web Mapping Service) view">WMS</button>
+            <button id="switchGvOsm" title="Switch to OpenStreetMap view">OpenStreetMap</button>
          </td>
       </tr>
       <tr id="gvWmsControls">
          <td valign="top">
             <form name="frm1">
-               X2: <input type="text" id="x2" name="x2" value="-1152710">(top [^&gt;])<br/>
-               Y1: <input type="text" id="y1" name="y1" value="-526404">(left [&lt;])<br/>
-               Y2: <input type="text" id="y2" name="y2" value="-526216">(right [&gt;])<br/>
-               X1: <input type="text" id="x1" name="x1" value="-1152840">(bottom [v&lt;])<br/>
-               (0,0 je nìkde v Estonsku)
+               X2: <input type="text" id="x2" name="x2" value="-1152710">(top [&#x2191;])<br/>
+               Y1: <input type="text" id="y1" name="y1" value="-526404">(left [&#x2190;])<br/>
+               Y2: <input type="text" id="y2" name="y2" value="-526216">(right [&#x2192;])<br/>
+               X1: <input type="text" id="x1" name="x1" value="-1152840">(bottom [&#x2193;])<br/>
+               (0,0 is near Estonia)
                <input type="button" value="Display" onClick="displayMap()">
-               <input type="checkbox" id="autoDisplay" value="Auto" title="Display automatically" checked="checked">Auto<br/>
+               <input type="checkbox" id="autoDisplay" value="Auto" title="Display automatically on zoom/pan/preset change" checked="checked">Auto<br/>
                <input type="button" value="+" onClick="zoomIn()"  title="Zoom In">
                <input type="button" value="-" onClick="zoomOut()" title="Zoom Out">
                |
-               <input type="button" value="<" onClick="panWest()" title="West">
-               <input type="button" value="^" onClick="panNorth()" title="North">
-               <input type="button" value="v" onClick="panSouth()" title="South">
-               <input type="button" value=">" onClick="panEast()" title="East">
+               <input type="button" value="&#x2190;" onClick="panWest()" title="pan West">
+               <input type="button" value="&#x2191;" onClick="panNorth()" title="pan North">
+               <input type="button" value="&#x2193;" onClick="panSouth()" title="pan South">
+               <input type="button" value="&#x2192;" onClick="panEast()" title="pan East">
                <hr>
                <div>WMS: <select id="selWms" name="selWms" size="1"></select>
                </div>

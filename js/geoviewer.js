@@ -271,6 +271,8 @@ function switchToOpenStreetMap() {
   $("#gvWms").hide();
   $("#gvWmsControls").hide();
   map.invalidateSize();
+  $("#switchGvWms").attr("disabled",false);
+  $("#switchGvOsm").attr("disabled",true);
 }
 
 function switchToWms() {
@@ -278,6 +280,8 @@ function switchToWms() {
   $("#gvOsm").height(0);
   $("#gvWms").show();
   $("#gvWmsControls").show();
+  $("#switchGvWms").attr("disabled",true);
+  $("#switchGvOsm").attr("disabled",false);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -295,4 +299,5 @@ $(function() {
 
   $("#switchGvOsm").click(switchToOpenStreetMap);
   $("#switchGvWms").click(switchToWms);
+  $("#switchGvWms").attr("disabled",true);
 });
