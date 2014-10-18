@@ -42,10 +42,11 @@ function preset(y1,x1,y2,x2) {
 
 function zoomIn() {
   'use strict';
-  var oldX1 = parseFloat(document.forms.frm1.x1.value),
-      oldY1 = parseFloat(document.forms.frm1.y1.value),
-      oldX2 = parseFloat(document.forms.frm1.x2.value),
-      oldY2 = parseFloat(document.forms.frm1.y2.value),
+    var frm1 = document.forms.frm1;
+    var oldX1 = parseFloat(frm1.x1.value),
+      oldY1 = parseFloat(frm1.y1.value),
+      oldX2 = parseFloat(frm1.x2.value),
+      oldY2 = parseFloat(frm1.y2.value),
       height = oldX2 - oldX1,
       width = oldY2 - oldY1,
       newX1 = oldX1 + (height/4),
@@ -57,10 +58,11 @@ function zoomIn() {
 
 function zoomOut() {
   'use strict';
-  var oldX1 = parseFloat(document.forms.frm1.x1.value),
-      oldY1 = parseFloat(document.forms.frm1.y1.value),
-      oldX2 = parseFloat(document.forms.frm1.x2.value),
-      oldY2 = parseFloat(document.forms.frm1.y2.value),
+    var frm1 = document.forms.frm1;
+    var oldX1 = parseFloat(frm1.x1.value),
+      oldY1 = parseFloat(frm1.y1.value),
+      oldX2 = parseFloat(frm1.x2.value),
+      oldY2 = parseFloat(frm1.y2.value),
       height = oldX2 - oldX1,
       width = oldY2 - oldY1,
       newX1 = oldX1 - (height/4),
@@ -72,10 +74,11 @@ function zoomOut() {
 
 function panWest() {
   'use strict';
-  var oldX1 = parseFloat(document.forms.frm1.x1.value),
-      oldY1 = parseFloat(document.forms.frm1.y1.value),
-      oldX2 = parseFloat(document.forms.frm1.x2.value),
-      oldY2 = parseFloat(document.forms.frm1.y2.value),
+    var frm1 = document.forms.frm1;
+    var oldX1 = parseFloat(frm1.x1.value),
+      oldY1 = parseFloat(frm1.y1.value),
+      oldX2 = parseFloat(frm1.x2.value),
+      oldY2 = parseFloat(frm1.y2.value),
       width = oldY2 - oldY1,
       newX1 = oldX1,
       newY1 = oldY1 - (width/3),
@@ -86,10 +89,11 @@ function panWest() {
 
 function panEast() {
   'use strict';
-  var oldX1 = parseFloat(document.forms.frm1.x1.value),
-      oldY1 = parseFloat(document.forms.frm1.y1.value),
-      oldX2 = parseFloat(document.forms.frm1.x2.value),
-      oldY2 = parseFloat(document.forms.frm1.y2.value),
+    var frm1 = document.forms.frm1;
+    var oldX1 = parseFloat(frm1.x1.value),
+      oldY1 = parseFloat(frm1.y1.value),
+      oldX2 = parseFloat(frm1.x2.value),
+      oldY2 = parseFloat(frm1.y2.value),
       width = oldY2 - oldY1,
       newX1 = oldX1,
       newY1 = oldY1 + (width/3),
@@ -100,10 +104,11 @@ function panEast() {
 
 function panNorth() {
   'use strict';
-  var oldX1 = parseFloat(document.forms.frm1.x1.value),
-      oldY1 = parseFloat(document.forms.frm1.y1.value),
-      oldX2 = parseFloat(document.forms.frm1.x2.value),
-      oldY2 = parseFloat(document.forms.frm1.y2.value),
+    var frm1 = document.forms.frm1;
+    var oldX1 = parseFloat(frm1.x1.value),
+      oldY1 = parseFloat(frm1.y1.value),
+      oldX2 = parseFloat(frm1.x2.value),
+      oldY2 = parseFloat(frm1.y2.value),
       height = oldX2 - oldX1,
       newX1 = oldX1 + (height/3),
       newY1 = oldY1,
@@ -114,10 +119,11 @@ function panNorth() {
 
 function panSouth() {
   'use strict';
-  var oldX1 = parseFloat(document.forms.frm1.x1.value),
-      oldY1 = parseFloat(document.forms.frm1.y1.value),
-      oldX2 = parseFloat(document.forms.frm1.x2.value),
-      oldY2 = parseFloat(document.forms.frm1.y2.value),
+    var frm1 = document.forms.frm1;
+    var oldX1 = parseFloat(frm1.x1.value),
+      oldY1 = parseFloat(frm1.y1.value),
+      oldX2 = parseFloat(frm1.x2.value),
+      oldY2 = parseFloat(frm1.y2.value),
       height = oldX2 - oldX1,
       newX1 = oldX1 - (height/3),
       newY1 = oldY1,
@@ -126,6 +132,8 @@ function panSouth() {
   preset(newY1, newX1, newY2, newX2);
 }
 
+/*global processScriptToCoordinates */
+/*global console */
 function calculateMBR() {
   'use strict';
   var coordinates = processScriptToCoordinates(),
@@ -134,7 +142,7 @@ function calculateMBR() {
       x1=coordinates[0].ox1,
       x2=coordinates[0].ox2,
       xMax, xMin, yMax, yMin,
-      coord, resultingRectangle, rectWidth, rectHeight, aspHoriz, aspVert, aspRatio, 
+      coord, resultingRectangle, rectWidth, rectHeight, aspHoriz, aspVert, aspRatio,
       horizCenter, vertCenter;
   for (coord in coordinates) {
     xMax = Math.max(coordinates[coord].ox1,coordinates[coord].ox2);
@@ -168,14 +176,15 @@ function calculateMBR() {
 }
 
 function mbr() {
-  var coords = calculateMBR();
-  $("#y1").val(coords.west);
-  $("#y2").val(coords.east);
-  $("#x1").val(coords.south);
-  $("#x2").val(coords.north);
-  clearLines();
-  displayMap();
-  processScript();
+    'use strict';
+    var coords = calculateMBR();
+    $("#y1").val(coords.west);
+    $("#y2").val(coords.east);
+    $("#x1").val(coords.south);
+    $("#x2").val(coords.north);
+    clearLines();
+    displayMap();
+    processScript();
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -185,13 +194,13 @@ function mbr() {
 function populatePresets() {
    'use strict';
    var selPresets = $("#selPresets");
-   presets.forEach( function(it, num) { 
-     var o = new Option(it.name, "preset_"+num); 
+   presets.forEach( function(it, num) {
+     var o = new Option(it.name, "preset_"+num);
      o.setAttribute("y1",it.y1);
      o.setAttribute("x1",it.x1);
      o.setAttribute("y2",it.y2);
      o.setAttribute("x2",it.x2);
-     selPresets.append(o); 
+     selPresets.append(o);
    } );
 }
 
@@ -203,9 +212,9 @@ function populateWMSs() {
       selWms.find("option").remove(0);
    }
    wms.forEach( function(it, num) {
-     var o = new Option(it.name, "wms_"+num); 
+     var o = new Option(it.name, "wms_"+num);
      o.setAttribute("url",it.url);
-     selWms.append(o); 
+     selWms.append(o);
    } );
 }
 
@@ -219,14 +228,15 @@ function onChangeWms() {
   'use strict';
   var selectedOption = this.selectedOptions[0].attributes;
   this.setAttribute("url",selectedOption.url.value);
-  $("#layers")[0].value = wms[this.selectedIndex].layers;
+  $("#layers").val(wms[this.selectedIndex].layers);
   if ($("#selPresets")[0].selectedIndex > 0) {
     updateDisplay();
   }
 }
 
 function svgElemHeight() {
-  return gvWindowHeight - 27;
+    'use strict';
+    return gvWindowHeight - 27;
 }
 
 /*global gvWindowWidth*/
@@ -258,46 +268,53 @@ function geoViewerInit() {
   populateWMSs();
   // register event for WMSs
   selWms.change( onChangeWms );
-  selWms.attr("url",$("#selWms option:first").attr("url"));
+  selWms.attr("url",selWms.find("option:first").attr("url"));
   $("#layers")[0].value = wms[0].layers;
 
   geoViewerResize();
   $(window).resize(geoViewerResize);
 }
 
+/*global map */
 function switchToOpenStreetMap() {
-  $("#gvOsm").show();
-  $("#gvOsm").height(780);
-  $("#gvWms").hide();
-  $("#gvWmsControls").hide();
-  map.invalidateSize();
-  $("#switchGvWms").attr("disabled",false);
-  $("#switchGvOsm").attr("disabled",true);
+    'use strict';
+    var $gvOsm = $("#gvOsm");
+    $gvOsm.show();
+    $gvOsm.height(780);
+    $("#gvWms").hide();
+    $("#gvWmsControls").hide();
+    map.invalidateSize();
+    $("#switchGvWms").attr("disabled",false);
+    $("#switchGvOsm").attr("disabled",true);
 }
 
 function switchToWms() {
-  $("#gvOsm").hide();
-  $("#gvOsm").height(0);
-  $("#gvWms").show();
-  $("#gvWmsControls").show();
-  $("#switchGvWms").attr("disabled",true);
-  $("#switchGvOsm").attr("disabled",false);
+    'use strict';
+    var $gvOsm = $("#gvOsm");
+    $gvOsm.hide();
+    $gvOsm.height(0);
+    $("#gvWms").show();
+    $("#gvWmsControls").show();
+    $("#switchGvWms").attr("disabled",true);
+    $("#switchGvOsm").attr("disabled",false);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
+/*global drawInitial */
 $(function() {
-  'use strict';
-  $('#svgbasics').svg({onLoad: drawInitial});
-  $('#drawLines').click(processScript);
-  $('#mbr').click(mbr);
-  $('#clear').click(clearLines);
-  $('#export').click(function() {
-    var xml = $('#svgbasics').svg('get').toSVG();
-    $('#svgexport').html(xml.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'));
-  });
-  $("#svgbasics").offset($("#contents").offset());
+    'use strict';
+    $('#svgbasics').svg({onLoad: drawInitial});
+    $('#drawLines').click(processScript);
+    $('#mbr').click(mbr);
+    $('#clear').click(clearLines);
+    $('#export').click(function() {
+      var xml = $('#svgbasics').svg('get').toSVG();
+      $('#svgexport').html(xml.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'));
+    });
+    $("#svgbasics").offset($("#contents").offset());
 
-  $("#switchGvOsm").click(switchToOpenStreetMap);
-  $("#switchGvWms").click(switchToWms);
-  $("#switchGvWms").attr("disabled",true);
+    $("#switchGvOsm").click(switchToOpenStreetMap);
+    var $switchGvWms = $("#switchGvWms");
+    $switchGvWms.click(switchToWms);
+    $switchGvWms.attr("disabled",true);
 });
