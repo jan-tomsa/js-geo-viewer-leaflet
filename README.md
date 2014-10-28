@@ -1,6 +1,6 @@
-JD GeoViewer
+JS GeoViewer
 ============
 
 JavaScript Geographic viewer
 
-Attempt to reimplement using Leaflet (http://leafletjs.com/)
+Extended using Leaflet (http://leafletjs.com/)
