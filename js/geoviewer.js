@@ -1,4 +1,4 @@
-var gvWindowWidth, gvWindowHeight;
+var gvWindowWidth, gvWindowHeight, map;
 
 /*global document */
 function changeSrc(newSrc) {
@@ -42,8 +42,8 @@ function preset(y1,x1,y2,x2) {
 
 function zoomIn() {
   'use strict';
-    var frm1 = document.forms.frm1;
-    var oldX1 = parseFloat(frm1.x1.value),
+    var frm1 = document.forms.frm1,
+      oldX1 = parseFloat(frm1.x1.value),
       oldY1 = parseFloat(frm1.y1.value),
       oldX2 = parseFloat(frm1.x2.value),
       oldY2 = parseFloat(frm1.y2.value),
@@ -58,8 +58,8 @@ function zoomIn() {
 
 function zoomOut() {
   'use strict';
-    var frm1 = document.forms.frm1;
-    var oldX1 = parseFloat(frm1.x1.value),
+  var frm1 = document.forms.frm1,
+      oldX1 = parseFloat(frm1.x1.value),
       oldY1 = parseFloat(frm1.y1.value),
       oldX2 = parseFloat(frm1.x2.value),
       oldY2 = parseFloat(frm1.y2.value),
@@ -74,8 +74,8 @@ function zoomOut() {
 
 function panWest() {
   'use strict';
-    var frm1 = document.forms.frm1;
-    var oldX1 = parseFloat(frm1.x1.value),
+    var frm1 = document.forms.frm1,
+      oldX1 = parseFloat(frm1.x1.value),
       oldY1 = parseFloat(frm1.y1.value),
       oldX2 = parseFloat(frm1.x2.value),
       oldY2 = parseFloat(frm1.y2.value),
@@ -89,8 +89,8 @@ function panWest() {
 
 function panEast() {
   'use strict';
-    var frm1 = document.forms.frm1;
-    var oldX1 = parseFloat(frm1.x1.value),
+    var frm1 = document.forms.frm1,
+      oldX1 = parseFloat(frm1.x1.value),
       oldY1 = parseFloat(frm1.y1.value),
       oldX2 = parseFloat(frm1.x2.value),
       oldY2 = parseFloat(frm1.y2.value),
@@ -104,8 +104,8 @@ function panEast() {
 
 function panNorth() {
   'use strict';
-    var frm1 = document.forms.frm1;
-    var oldX1 = parseFloat(frm1.x1.value),
+    var frm1 = document.forms.frm1,
+      oldX1 = parseFloat(frm1.x1.value),
       oldY1 = parseFloat(frm1.y1.value),
       oldX2 = parseFloat(frm1.x2.value),
       oldY2 = parseFloat(frm1.y2.value),
@@ -119,8 +119,8 @@ function panNorth() {
 
 function panSouth() {
   'use strict';
-    var frm1 = document.forms.frm1;
-    var oldX1 = parseFloat(frm1.x1.value),
+    var frm1 = document.forms.frm1,
+      oldX1 = parseFloat(frm1.x1.value),
       oldY1 = parseFloat(frm1.y1.value),
       oldX2 = parseFloat(frm1.x2.value),
       oldY2 = parseFloat(frm1.y2.value),
@@ -135,55 +135,62 @@ function panSouth() {
 /*global processScriptToCoordinates */
 /*global console */
 function calculateMBR() {
-  'use strict';
-  var coordinates = processScriptToCoordinates(),
-      y1=coordinates[0].oy1,
-      y2=coordinates[0].oy2,
-      x1=coordinates[0].ox1,
-      x2=coordinates[0].ox2,
-      xMax, xMin, yMax, yMin,
-      coord, resultingRectangle, rectWidth, rectHeight, aspHoriz, aspVert, aspRatio,
-      horizCenter, vertCenter;
-  for (coord in coordinates) {
-    xMax = Math.max(coordinates[coord].ox1,coordinates[coord].ox2);
-    xMin = Math.min(coordinates[coord].ox1,coordinates[coord].ox2);
-    yMax = Math.max(coordinates[coord].oy1,coordinates[coord].oy2);
-    yMin = Math.min(coordinates[coord].oy1,coordinates[coord].oy2);
-    if (x1 > xMax) { x1=xMax; }
-    if (x2 < xMin) { x2=xMin; }
-    if (y1 > yMax) { y1=yMax; }
-    if (y2 < yMin) { y2=yMin; }
-  }
-  resultingRectangle = {west: -x2,  east: -x1,  south: -y2,  north: -y1};
-  rectWidth = resultingRectangle.east - resultingRectangle.west;
-  rectHeight = resultingRectangle.north - resultingRectangle.south;
-  // fix aspect ratio
-  aspHoriz = gvWindowWidth / rectWidth;
-  aspVert = gvWindowHeight / rectHeight;
-  aspRatio = aspHoriz / aspVert;
-  if (aspRatio > 1.0) {
-    console.log("Shrinking horizontally.");
+    'use strict';
+    var coordinates = processScriptToCoordinates(),
+        y1=coordinates[0].oy1,
+        y2=coordinates[0].oy2,
+        x1=coordinates[0].ox1,
+        x2=coordinates[0].ox2,
+        xMax, xMin, yMax, yMin,
+        coord, resultingRectangle, rectWidth, rectHeight, aspHoriz, aspVert, aspRatio,
+        horizCenter, vertCenter;
+    for (coord in coordinates) {
+        xMax = Math.max(coordinates[coord].ox1,coordinates[coord].ox2);
+        xMin = Math.min(coordinates[coord].ox1,coordinates[coord].ox2);
+        yMax = Math.max(coordinates[coord].oy1,coordinates[coord].oy2);
+        yMin = Math.min(coordinates[coord].oy1,coordinates[coord].oy2);
+        if (x1 > xMax) { x1=xMax; }
+        if (x2 < xMin) { x2=xMin; }
+        if (y1 > yMax) { y1=yMax; }
+        if (y2 < yMin) { y2=yMin; }
+    }
+    resultingRectangle = {west: -x2,  east: -x1,  south: -y2,  north: -y1};
+    rectWidth = resultingRectangle.east - resultingRectangle.west;
+    rectHeight = resultingRectangle.north - resultingRectangle.south;
+    // fix aspect ratio
+    aspHoriz = gvWindowWidth / rectWidth;
+    aspVert = gvWindowHeight / rectHeight;
+    aspRatio = aspHoriz / aspVert;
     horizCenter = resultingRectangle.east - (rectWidth / 2);
-    resultingRectangle.west = horizCenter - ((rectWidth / 2) * aspRatio);
-    resultingRectangle.east = horizCenter + ((rectWidth / 2) * aspRatio);
-  } else {
-    console.log("Shrinking vertically.");
     vertCenter = resultingRectangle.north - (rectHeight / 2);
-    resultingRectangle.south = vertCenter - ((rectHeight / 2) / aspRatio);
-    resultingRectangle.north = vertCenter + ((rectHeight / 2) / aspRatio);
-  }
-  return resultingRectangle;
+    if (aspRatio > 1.0) {
+        console.log("Shrinking horizontally.");
+        resultingRectangle.west = horizCenter - ((rectWidth / 2) * aspRatio);
+        resultingRectangle.east = horizCenter + ((rectWidth / 2) * aspRatio);
+    } else {
+        console.log("Shrinking vertically.");
+        resultingRectangle.south = vertCenter - ((rectHeight / 2) / aspRatio);
+        resultingRectangle.north = vertCenter + ((rectHeight / 2) / aspRatio);
+    }
+    return {rect:resultingRectangle, center:{horiz:horizCenter, vert:vertCenter}};
 }
 
 function mbr() {
     'use strict';
-    var coords = calculateMBR();
-    $("#y1").val(coords.west);
-    $("#y2").val(coords.east);
-    $("#x1").val(coords.south);
-    $("#x2").val(coords.north);
+    var wgs84center,
+        mbr = calculateMBR();
+    $("#y1").val(mbr.rect.west);
+    $("#y2").val(mbr.rect.east);
+    $("#x1").val(mbr.rect.south);
+    $("#x2").val(mbr.rect.north);
     clearLines();
-    displayMap();
+    if ($("#gvWms").css("display") === "block") {
+        displayMap();
+    }
+    if ($("#gvOsm").css("display") === "block") {
+        wgs84center = SJtsk2Wgs84.transformer.transform(Math.abs(mbr.center.vert),Math.abs(mbr.center.horiz));
+        map.panTo([wgs84center.lat,wgs84center.lng]);
+    }
     processScript();
 }
 
@@ -192,16 +199,16 @@ function mbr() {
 /*global $ */
 /*global presets */
 function populatePresets() {
-   'use strict';
-   var selPresets = $("#selPresets");
-   presets.forEach( function(it, num) {
-     var o = new Option(it.name, "preset_"+num);
-     o.setAttribute("y1",it.y1);
-     o.setAttribute("x1",it.x1);
-     o.setAttribute("y2",it.y2);
-     o.setAttribute("x2",it.x2);
-     selPresets.append(o);
-   } );
+    'use strict';
+    var selPresets = $("#selPresets");
+    presets.forEach( function(it, num) { 
+        var o = new Option(it.name, "preset_"+num); 
+        o.setAttribute("y1",it.y1);
+        o.setAttribute("x1",it.x1);
+        o.setAttribute("y2",it.y2);
+        o.setAttribute("x2",it.x2);
+        selPresets.append(o); 
+    } );
 }
 
 /*global wms */
@@ -212,9 +219,9 @@ function populateWMSs() {
       selWms.find("option").remove(0);
    }
    wms.forEach( function(it, num) {
-     var o = new Option(it.name, "wms_"+num);
+     var o = new Option(it.name, "wms_"+num); 
      o.setAttribute("url",it.url);
-     selWms.append(o);
+     selWms.append(o); 
    } );
 }
 
@@ -236,7 +243,7 @@ function onChangeWms() {
 
 function svgElemHeight() {
     'use strict';
-    return gvWindowHeight - 27;
+    return gvWindowHeight - 30;
 }
 
 /*global gvWindowWidth*/
@@ -244,7 +251,8 @@ function svgElemHeight() {
 function geoViewerResize() {
   'use strict';
   var svgElem = $('#svgbasics'),
-      imgElem = $('#contents');
+      imgElem = $('#contents'),
+      $gvOsm = $("#gvOsm");
   gvWindowWidth = window.innerWidth;
   gvWindowHeight = window.innerHeight;
   //console.log('resized - width:'+gvWindowWidth+', height:'+gvWindowHeight);
@@ -254,17 +262,26 @@ function geoViewerResize() {
   svgElem.find('svg').height( svgElemHeight() );
   imgElem.width( gvWindowWidth );
   imgElem.height( svgElemHeight() );
+  $gvOsm.height( svgElemHeight() );
+  $("#gvWms").height( svgElemHeight() );
   updateDisplay();
 }
 
 function geoViewerInit() {
   'use strict';
-  populatePresets();
   var sel = $("#selPresets"),
-      selWms = $("#selWms");
+      selWms = $("#selWms"),
+      coordsRicany = [49.99,14.66],
+      polygon;
   // register event for Presets
   sel.change( onChangePreset );
 
+  map = L.map('gvOsm').setView(coordsRicany, 13); 
+  L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
+		  { attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>', maxZoom: 18, id: 'examples.map-i875mjb7' })
+  .addTo(map);
+
+  populatePresets();
   populateWMSs();
   // register event for WMSs
   selWms.change( onChangeWms );
@@ -280,7 +297,7 @@ function switchToOpenStreetMap() {
     'use strict';
     var $gvOsm = $("#gvOsm");
     $gvOsm.show();
-    $gvOsm.height(780);
+    $gvOsm.height( svgElemHeight() );
     $("#gvWms").hide();
     $("#gvWmsControls").hide();
     map.invalidateSize();

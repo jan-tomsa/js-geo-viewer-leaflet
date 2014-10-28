@@ -334,7 +334,7 @@ function drawLeaflet( coordinates ) {
   'use strict';
   var poly, xcoo;
   poly = coordinates.map( function(it) { 
-      xcoo = transformSJtsk2Wgs84(it.oy1,it.ox1);  // FIXME: GROSS SIMPLIFICATION!
+      xcoo = SJtsk2Wgs84.transformer.transform(it.oy1,it.ox1);  // FIXME: GROSS SIMPLIFICATION!
       return [xcoo.lat, xcoo.lng]; 
   } );
   L.polygon(poly).addTo(map);
