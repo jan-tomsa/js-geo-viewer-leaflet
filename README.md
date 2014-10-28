@@ -1,4 +1,4 @@
-JD GeoViewer
+JS GeoViewer
 ============
 
 JavaScript Geographic viewer
