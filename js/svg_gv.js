@@ -35,8 +35,8 @@ function transformHoriz( x, g ) {
   if (Math.abs(x) < 430000) {
     return x;  // no transformation
   }
-  var rawsx = ((Math.abs(x)-Math.abs(g.gxr))/g.dx*gvWindowWidth);
-  return gvWindowWidth-rawsx;
+  var rawsx = ((Math.abs(x)-Math.abs(g.gxr))/g.dx*GeoViewer.gvWindowWidth);
+  return GeoViewer.gvWindowWidth-rawsx;
 }
 
 function transformVert( y, g ) {
@@ -44,7 +44,7 @@ function transformVert( y, g ) {
   if (Math.abs(y) < 910000) {
     return y;  // no transformation
   }
-  var rawsy = (Math.abs(y)-Math.abs(g.gyt))/g.dy*svgElemHeight();
+  var rawsy = (Math.abs(y)-Math.abs(g.gyt))/g.dy*GeoViewer.svgElemHeight();
   return rawsy;
 }
 
@@ -337,7 +337,7 @@ function drawLeaflet( coordinates ) {
       xcoo = SJtsk2Wgs84.transformer.transform(it.oy1,it.ox1);  // FIXME: GROSS SIMPLIFICATION!
       return [xcoo.lat, xcoo.lng]; 
   } );
-  L.polygon(poly).addTo(map);
+  L.polygon(poly).addTo(GeoViewer.map);
 }
 
 function drawSVGLines( coordinates ) {

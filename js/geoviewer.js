@@ -1,12 +1,16 @@
-var gvWindowWidth, gvWindowHeight, map;
+if (typeof GeoViewer == 'undefined') { GeoViewer = {}; }
+
+GeoViewer.gvWindowWidth = 0;
+GeoViewer.gvWindowHeight = 0;
+GeoViewer.map = null;
 
 /*global document */
-function changeSrc(newSrc) {
+GeoViewer.changeSrc = function(newSrc) {
   'use strict';
   document.getElementById("contents").src=newSrc;
 }
 
-function displayMap() {
+GeoViewer.displayMap = function() {
   'use strict';
   var wmsUrl = document.forms.frm1.selWms.attributes.url.value,
       x1 = document.forms.frm1.x1.value,
@@ -14,33 +18,33 @@ function displayMap() {
       y1 = document.forms.frm1.y1.value,
       y2 = document.forms.frm1.y2.value,
       layers = document.forms.frm1.layers.value,
-      src = wmsUrl + "&LAYERS="+layers+"&FORMAT=image/png&SRS=EPSG:102067&STYLES=&BBOX=" +y1+ "," + x1 + "," + y2 + "," + x2 + "&WIDTH="+gvWindowWidth+"&HEIGHT="+svgElemHeight();
-  changeSrc( src );
+      src = wmsUrl + "&LAYERS="+layers+"&FORMAT=image/png&SRS=EPSG:102067&STYLES=&BBOX=" +y1+ "," + x1 + "," + y2 + "," + x2 + "&WIDTH="+GeoViewer.gvWindowWidth+"&HEIGHT="+GeoViewer.svgElemHeight();
+  GeoViewer.changeSrc( src );
 }
 
 /*global clearLines */
 /*global processScript */
-function updateDisplay() {
+GeoViewer.updateDisplay = function() {
   'use strict';
   var autoDisplay = document.getElementById("autoDisplay").checked;
   if (autoDisplay) {
     clearLines();
-    displayMap();
+    GeoViewer.displayMap();
     processScript();
   }
 }
 
-function preset(y1,x1,y2,x2) {
+GeoViewer.preset = function(y1,x1,y2,x2) {
   'use strict';
   var frm1 = document.forms.frm1;
   frm1.x1.value = x1;
   frm1.x2.value = x2;
   frm1.y1.value = y1;
   frm1.y2.value = y2;
-  updateDisplay();
+  GeoViewer.updateDisplay();
 }
 
-function zoomIn() {
+GeoViewer.zoomIn = function() {
   'use strict';
     var frm1 = document.forms.frm1,
       oldX1 = parseFloat(frm1.x1.value),
@@ -53,10 +57,10 @@ function zoomIn() {
       newY1 = oldY1 + (width/4),
       newX2 = oldX2 - (height/4),
       newY2 = oldY2 - (width/4);
-  preset(newY1, newX1, newY2, newX2);
+  GeoViewer.preset(newY1, newX1, newY2, newX2);
 }
 
-function zoomOut() {
+GeoViewer.zoomOut = function() {
   'use strict';
   var frm1 = document.forms.frm1,
       oldX1 = parseFloat(frm1.x1.value),
@@ -69,10 +73,10 @@ function zoomOut() {
       newY1 = oldY1 - (width/4),
       newX2 = oldX2 + (height/4),
       newY2 = oldY2 + (width/4);
-  preset(newY1, newX1, newY2, newX2);
+  GeoViewer.preset(newY1, newX1, newY2, newX2);
 }
 
-function panWest() {
+GeoViewer.panWest = function() {
   'use strict';
     var frm1 = document.forms.frm1,
       oldX1 = parseFloat(frm1.x1.value),
@@ -84,10 +88,10 @@ function panWest() {
       newY1 = oldY1 - (width/3),
       newX2 = oldX2,
       newY2 = oldY2 - (width/3);
-  preset(newY1, newX1, newY2, newX2);
+  GeoViewer.preset(newY1, newX1, newY2, newX2);
 }
 
-function panEast() {
+GeoViewer.panEast = function() {
   'use strict';
     var frm1 = document.forms.frm1,
       oldX1 = parseFloat(frm1.x1.value),
@@ -99,10 +103,10 @@ function panEast() {
       newY1 = oldY1 + (width/3),
       newX2 = oldX2,
       newY2 = oldY2 + (width/3);
-  preset(newY1, newX1, newY2, newX2);
+  GeoViewer.preset(newY1, newX1, newY2, newX2);
 }
 
-function panNorth() {
+GeoViewer.panNorth = function() {
   'use strict';
     var frm1 = document.forms.frm1,
       oldX1 = parseFloat(frm1.x1.value),
@@ -114,10 +118,10 @@ function panNorth() {
       newY1 = oldY1,
       newX2 = oldX2 + (height/3),
       newY2 = oldY2;
-  preset(newY1, newX1, newY2, newX2);
+  GeoViewer.preset(newY1, newX1, newY2, newX2);
 }
 
-function panSouth() {
+GeoViewer.panSouth = function() {
   'use strict';
     var frm1 = document.forms.frm1,
       oldX1 = parseFloat(frm1.x1.value),
@@ -129,12 +133,12 @@ function panSouth() {
       newY1 = oldY1,
       newX2 = oldX2 - (height/3),
       newY2 = oldY2;
-  preset(newY1, newX1, newY2, newX2);
+  GeoViewer.preset(newY1, newX1, newY2, newX2);
 }
 
 /*global processScriptToCoordinates */
 /*global console */
-function calculateMBR() {
+GeoViewer.calculateMBR = function() {
     'use strict';
     var coordinates = processScriptToCoordinates(),
         y1=coordinates[0].oy1,
@@ -158,8 +162,8 @@ function calculateMBR() {
     rectWidth = resultingRectangle.east - resultingRectangle.west;
     rectHeight = resultingRectangle.north - resultingRectangle.south;
     // fix aspect ratio
-    aspHoriz = gvWindowWidth / rectWidth;
-    aspVert = gvWindowHeight / rectHeight;
+    aspHoriz = GeoViewer.gvWindowWidth / rectWidth;
+    aspVert  = GeoViewer.gvWindowHeight / rectHeight;
     aspRatio = aspHoriz / aspVert;
     horizCenter = resultingRectangle.east - (rectWidth / 2);
     vertCenter = resultingRectangle.north - (rectHeight / 2);
@@ -175,21 +179,21 @@ function calculateMBR() {
     return {rect:resultingRectangle, center:{horiz:horizCenter, vert:vertCenter}};
 }
 
-function mbr() {
+GeoViewer.mbr = function() {
     'use strict';
     var wgs84center,
-        mbr = calculateMBR();
-    $("#y1").val(mbr.rect.west);
-    $("#y2").val(mbr.rect.east);
-    $("#x1").val(mbr.rect.south);
-    $("#x2").val(mbr.rect.north);
+        ombr = GeoViewer.calculateMBR();
+    $("#y1").val(ombr.rect.west);
+    $("#y2").val(ombr.rect.east);
+    $("#x1").val(ombr.rect.south);
+    $("#x2").val(ombr.rect.north);
     clearLines();
     if ($("#gvWms").css("display") === "block") {
-        displayMap();
+        GeoViewer.displayMap();
     }
     if ($("#gvOsm").css("display") === "block") {
-        wgs84center = SJtsk2Wgs84.transformer.transform(Math.abs(mbr.center.vert),Math.abs(mbr.center.horiz));
-        map.panTo([wgs84center.lat,wgs84center.lng]);
+        wgs84center = SJtsk2Wgs84.transformer.transform(Math.abs(ombr.center.vert),Math.abs(ombr.center.horiz));
+        GeoViewer.map.panTo([wgs84center.lat,wgs84center.lng]);
     }
     processScript();
 }
@@ -198,7 +202,7 @@ function mbr() {
 
 /*global $ */
 /*global presets */
-function populatePresets() {
+GeoViewer.populatePresets = function() {
     'use strict';
     var selPresets = $("#selPresets");
     presets.forEach( function(it, num) { 
@@ -212,7 +216,7 @@ function populatePresets() {
 }
 
 /*global wms */
-function populateWMSs() {
+GeoViewer.populateWMSs = function() {
   'use strict';
    var selWms = $("#selWms");
    while (selWms.find("option").length>0) {
@@ -225,87 +229,84 @@ function populateWMSs() {
    } );
 }
 
-function onChangePreset() {
+GeoViewer.onChangePreset = function() {
   'use strict';
   var selectedOption = this.selectedOptions[0].attributes;
-  preset( selectedOption.y1.value, selectedOption.x1.value, selectedOption.y2.value, selectedOption.x2.value );
+  GeoViewer.preset( selectedOption.y1.value, selectedOption.x1.value, selectedOption.y2.value, selectedOption.x2.value );
 }
 
-function onChangeWms() {
+GeoViewer.onChangeWms = function() {
   'use strict';
   var selectedOption = this.selectedOptions[0].attributes;
   this.setAttribute("url",selectedOption.url.value);
   $("#layers").val(wms[this.selectedIndex].layers);
   if ($("#selPresets")[0].selectedIndex > 0) {
-    updateDisplay();
+    GeoViewer.updateDisplay();
   }
 }
 
-function svgElemHeight() {
+GeoViewer.svgElemHeight = function() {
     'use strict';
-    return gvWindowHeight - 30;
+    return GeoViewer.gvWindowHeight - 30;
 }
 
-/*global gvWindowWidth*/
-/*global gvWindowHeight*/
-function geoViewerResize() {
+GeoViewer.resize = function() {
   'use strict';
   var svgElem = $('#svgbasics'),
       imgElem = $('#contents'),
       $gvOsm = $("#gvOsm");
-  gvWindowWidth = window.innerWidth;
-  gvWindowHeight = window.innerHeight;
-  //console.log('resized - width:'+gvWindowWidth+', height:'+gvWindowHeight);
-  svgElem.width( gvWindowWidth );
-  svgElem.find('svg').width( gvWindowWidth );
-  svgElem.height( svgElemHeight() );
-  svgElem.find('svg').height( svgElemHeight() );
-  imgElem.width( gvWindowWidth );
-  imgElem.height( svgElemHeight() );
-  $gvOsm.height( svgElemHeight() );
-  $("#gvWms").height( svgElemHeight() );
-  updateDisplay();
+  GeoViewer.gvWindowWidth = window.innerWidth;
+  GeoViewer.gvWindowHeight = window.innerHeight;
+  //console.log('resized - width:'+GeoViewer.gvWindowWidth+', height:'+GeoViewer.gvWindowHeight);
+  svgElem.width( GeoViewer.gvWindowWidth );
+  svgElem.find('svg').width( GeoViewer.gvWindowWidth );
+  svgElem.height( GeoViewer.svgElemHeight() );
+  svgElem.find('svg').height( GeoViewer.svgElemHeight() );
+  imgElem.width( GeoViewer.gvWindowWidth );
+  imgElem.height( GeoViewer.svgElemHeight() );
+  $gvOsm.height( GeoViewer.svgElemHeight() );
+  $("#gvWms").height( GeoViewer.svgElemHeight() );
+  GeoViewer.updateDisplay();
 }
 
-function geoViewerInit() {
+GeoViewer.init = function() {
   'use strict';
   var sel = $("#selPresets"),
       selWms = $("#selWms"),
       coordsRicany = [49.99,14.66],
       polygon;
   // register event for Presets
-  sel.change( onChangePreset );
+  sel.change( GeoViewer.onChangePreset );
 
-  map = L.map('gvOsm').setView(coordsRicany, 13); 
+  GeoViewer.map = L.map('gvOsm').setView(coordsRicany, 13); 
   L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
 		  { attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>', maxZoom: 18, id: 'examples.map-i875mjb7' })
-  .addTo(map);
+      .addTo(GeoViewer.map);
 
-  populatePresets();
-  populateWMSs();
+  GeoViewer.populatePresets();
+  GeoViewer.populateWMSs();
   // register event for WMSs
-  selWms.change( onChangeWms );
+  selWms.change( GeoViewer.onChangeWms );
   selWms.attr("url",selWms.find("option:first").attr("url"));
   $("#layers")[0].value = wms[0].layers;
 
-  geoViewerResize();
-  $(window).resize(geoViewerResize);
+  GeoViewer.resize();
+  $(window).resize(GeoViewer.resize);
 }
 
-/*global map */
-function switchToOpenStreetMap() {
+GeoViewer.switchToOpenStreetMap = function() {
     'use strict';
     var $gvOsm = $("#gvOsm");
     $gvOsm.show();
-    $gvOsm.height( svgElemHeight() );
+    $gvOsm.height( GeoViewer.svgElemHeight() );
     $("#gvWms").hide();
     $("#gvWmsControls").hide();
-    map.invalidateSize();
+    GeoViewer.map.invalidateSize();
     $("#switchGvWms").attr("disabled",false);
     $("#switchGvOsm").attr("disabled",true);
 }
 
-function switchToWms() {
+GeoViewer.switchToWms = function() {
     'use strict';
     var $gvOsm = $("#gvOsm");
     $gvOsm.hide();
@@ -322,7 +323,7 @@ $(function() {
     'use strict';
     $('#svgbasics').svg({onLoad: drawInitial});
     $('#drawLines').click(processScript);
-    $('#mbr').click(mbr);
+    $('#mbr').click(GeoViewer.mbr);
     $('#clear').click(clearLines);
     $('#export').click(function() {
       var xml = $('#svgbasics').svg('get').toSVG();
@@ -330,8 +331,14 @@ $(function() {
     });
     $("#svgbasics").offset($("#contents").offset());
 
-    $("#switchGvOsm").click(switchToOpenStreetMap);
+    $("#switchGvOsm").click(GeoViewer.switchToOpenStreetMap);
     var $switchGvWms = $("#switchGvWms");
-    $switchGvWms.click(switchToWms);
+    $switchGvWms.click(GeoViewer.switchToWms);
     $switchGvWms.attr("disabled",true);
+    $("#gvZoomIn").click(GeoViewer.zoomIn);
+    $("#gvZoomOut").click(GeoViewer.zoomOut);
+    $("#gvPanWest").click(GeoViewer.panWest);
+    $("#gvPanEast").click(GeoViewer.panEast);
+    $("#gvPanNorth").click(GeoViewer.panNorth);
+    $("#gvPanSouth").click(GeoViewer.panSouth);
 });

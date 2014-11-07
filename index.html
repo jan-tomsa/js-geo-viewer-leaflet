@@ -60,13 +60,13 @@
                (0,0 is near Estonia)
                <input type="button" value="Display" onClick="displayMap()">
                <input type="checkbox" id="autoDisplay" value="Auto" title="Display automatically on zoom/pan/preset change" checked="checked">Auto<br/>
-               <input type="button" value="+" onClick="zoomIn()"  title="Zoom In">
-               <input type="button" value="-" onClick="zoomOut()" title="Zoom Out">
+           <input type="button" value="+" id="gvZoomIn"  title="Zoom In">
+           <input type="button" value="-" id="gvZoomOut" title="Zoom Out">
                |
-               <input type="button" value="&#x2190;" onClick="panWest()" title="pan West">
-               <input type="button" value="&#x2191;" onClick="panNorth()" title="pan North">
-               <input type="button" value="&#x2193;" onClick="panSouth()" title="pan South">
-               <input type="button" value="&#x2192;" onClick="panEast()" title="pan East">
+           <input type="button" value="&#x2190;" id="gvPanWest" title="pan West">
+           <input type="button" value="&#x2191;" id="gvPanNorth" title="pan North">
+           <input type="button" value="&#x2193;" id="gvPanSouth" title="pan South">
+           <input type="button" value="&#x2192;" id="gvPanEast" title="pan East">
                <hr>
                <div>WMS: <select id="selWms" name="selWms" size="1"></select>
                </div>
@@ -124,7 +124,7 @@
 <script>
 $(document).ready(function(){ 
     // Ye Olde GeoViewer
-    geoViewerInit();
+    GeoViewer.init();
     // Leaflet
     var coordsRicany = [49.99,14.66],  // S-JTSK(723827.6, 1054593.46)
         coordsPrague = [50.0596696,14.4656239],
